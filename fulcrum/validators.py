@@ -22,15 +22,19 @@ class BaseValidator(object):
         if len(self.errors):
             printable_errors = []
             for key in self.errors:
-                for data_name in self.errors[key]:
-                    for error in self.errors[key][data_name]:
-                        error_sentence = '{0} {1} {2}.'.format(key, data_name, error)
-                        printable_errors.append(error_sentence)
+                if isinstance(self.errors[key], list):
+                    for error in self.errors[key]:
+                        error_sentence = '{0} {1}.'.format(key, error)
+                else:
+                    for data_name in self.errors[key]:
+                        for error in self.errors[key][data_name]:
+                            error_sentence = '{0} {1} {2}.'.format(key, data_name, error)
+                printable_errors.append(error_sentence)
             return ' '.join(printable_errors)
 
 
 
 class FormValidator(BaseValidator):
     def validate(self):
-        if not 'dog' in self.data:
-            self.add_error('dog', 'must', 'exist')
+        if not 'form' in self.data:
+            self.errors.setdefault('form', []).append('must exist and not be empty')

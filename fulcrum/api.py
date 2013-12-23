@@ -36,7 +36,6 @@ class BaseAPI(object):
     def create(self, obj):
         if hasattr(self, 'validator_class'):
             self.validator = self.validator_class(obj)
-            print 'validator valid?: %s' % self.validator.valid
             if not self.validator.valid:
                 raise InvalidObjectException(self.validator)
         api_resp = self.call('post', self.path, data=obj, extra_headers={'Content-Type': 'application/json'})
@@ -65,8 +64,7 @@ class BaseAPI(object):
         
         if resp.status_code in self.http_exception_map:
             raise self.http_exception_map[resp.status_code]
-        #print resp
-        #print resp.content
+
         if method != 'delete':
             return resp.json()
 
