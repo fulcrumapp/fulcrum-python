@@ -8,3 +8,7 @@ class NotFoundException(Exception):
 
 class UnauthorizedException(Exception):
     """The API key supplied is not authorized to access this resource."""
+
+
+class InvalidObjectException(Exception):
+    """The object you attempted to create or update was invalid."""

@@ -4,7 +4,7 @@ import httpretty
 
 from fulcrum import Fulcrum
 
-key = 'e30e6ed0382322e7dbcb71ff365a5652f40eb602891b02a3b2ef67a4ad467b11'
+key = 'super_secret_key'
 api_root = 'https://api.fulcrumapp.com/api/v2'
 
 
@@ -36,3 +36,9 @@ class FormTest(unittest.TestCase):
     def test_delete(self):
         httpretty.register_uri(httpretty.DELETE, api_root + '/forms/5b656cd8-f3ef-43e9-8d22-84d015052778', status=200)
         form = self.fulcrum_api.form.delete('5b656cd8-f3ef-43e9-8d22-84d015052778')
+
+    @httpretty.activate
+    def test_create(self):
+        httpretty.register_uri(httpretty.POST, api_root + '/forms', status=200, body='{"id": 54321}')
+        form = self.fulcrum_api.form.create({'cats': True})
+        self.assertTrue('id' in form)
