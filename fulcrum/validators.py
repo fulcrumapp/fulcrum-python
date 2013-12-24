@@ -38,3 +38,10 @@ class FormValidator(BaseValidator):
     def validate(self):
         if not 'form' in self.data:
             self.errors.setdefault('form', []).append('must exist and not be empty')
+        else:
+            form = self.data['form']
+
+            if 'name' not in form or ('name' in form and not len(form['name'])):
+                self.add_error('form', 'name', 'must exist and not be empty')
+            if 'elements' not in form or ('elements' in form and not len(form['elements'])):
+                self.add_error('form', 'elements', 'must exist and not be empty')

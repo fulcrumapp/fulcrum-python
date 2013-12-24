@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InvalidObjectException
+from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InvalidObjectException, InternalServerErrorException
 from .validators import FormValidator
 
 supported_versions = [2]
@@ -24,6 +24,7 @@ class BaseAPI(object):
     http_exception_map = {
         401: UnauthorizedException,
         404: NotFoundException,
+        500: InternalServerErrorException,
     }
 
     def __init__(self, api_config):
@@ -61,7 +62,7 @@ class BaseAPI(object):
             kwargs['data'] = json.dumps(data)
 
         resp = getattr(requests, method)(full_path, **kwargs)
-        
+
         if resp.status_code in self.http_exception_map:
             raise self.http_exception_map[resp.status_code]
 

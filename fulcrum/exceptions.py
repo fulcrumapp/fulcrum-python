@@ -12,3 +12,7 @@ class UnauthorizedException(Exception):
 
 class InvalidObjectException(Exception):
     """The object you attempted to create or update was invalid."""
+
+
+class InternalServerErrorException(Exception):
+    """There was an error while processing your request."""
