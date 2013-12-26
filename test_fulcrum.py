@@ -82,8 +82,10 @@ class FormTest(unittest.TestCase):
             self.assertEqual(str(exc), 'form must exist and not be empty.')
 
     def test_create_invalid_form_name(self):
+        a_form = copy.deepcopy(valid_form)
+        a_form['form']['name'] = ''
         try:
-            self.fulcrum_api.form.create({'form': {'name': ''}})
+            self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'form name must exist and not be empty.')
