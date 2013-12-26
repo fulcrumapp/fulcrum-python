@@ -1,6 +1,6 @@
 ## fulcrum-python
 
-<img src="https://api.travis-ci.org/JasonSanford/fulcrum-python.png">
+<img src="https://api.travis-ci.org/JasonSanford/fulcrum-python.png" />&nbsp;<img src="https://coveralls.io/repos/JasonSanford/fulcrum-python/badge.png?branch=master" />
 
 A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
 
