@@ -1,14 +1,14 @@
 ## fulcrum-python
 
-A library for interfacing with the Fulcrum API
+<img src="https://api.travis-ci.org/JasonSanford/fulcrum-python.png">
+
+A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
 
 ### Testing
 
-You'll need:
+You'll need some additional things to run tests, so:
 
-* nose
-* HTTPretty
-* coverage (optional)
+    pip install -r test_requirements.txt
 
 Run the tests:
 
