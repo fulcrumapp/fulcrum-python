@@ -4,6 +4,17 @@
 
 A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
 
+### Status
+
+This is a work in progress:
+
+- [x] Forms
+- [x] Records
+- [ ] Webhooks
+- [ ] Photos
+- [ ] Classification Sets
+- [ ] Choice Lists
+
 ### Testing
 
 You'll need some additional things to run tests, so:
