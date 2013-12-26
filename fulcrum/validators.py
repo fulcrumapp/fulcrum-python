@@ -72,7 +72,7 @@ class RecordValidator(BaseValidator):
         else:
             record = self.data['record']
 
-            for required_member, type_or_types in self.required_members.iteritems():
+            for required_member, type_or_types in self.required_members.items():
                 if required_member not in record or (required_member in record and not isinstance(record[required_member], type_or_types)):
                     self.add_error('record', required_member, 'must exist and be of type {0}'.format(self._type_or_types_to_str(type_or_types)))
 
