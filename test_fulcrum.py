@@ -1,3 +1,4 @@
+import copy
 import logging
 import unittest
 
@@ -32,7 +33,6 @@ class APIConfigTest(unittest.TestCase):
 
 
 class FormTest(unittest.TestCase):
-    
     def setUp(self):
         self.fulcrum_api = Fulcrum(key=key)
 
@@ -118,3 +118,86 @@ class FormTest(unittest.TestCase):
         self.assertIsInstance(exc, InvalidObjectException)
         self.assertEqual(str(exc), 'form elements must exist and not be empty.')
     """
+
+
+class RecordTest(unittest.TestCase):
+    valid_record = {
+        'record': {
+            'latitude': 40.678,
+            'longitude': -100.567,
+            'form_id': 'abc-123',
+            'form_values': {
+                'height': 34,
+                'bathrooms': 2.5,
+            }
+        }
+    }
+
+    def setUp(self):
+        self.fulcrum_api = Fulcrum(key=key)
+
+    def test_record_missing_record(self):
+        a_record = copy.deepcopy(self.valid_record)
+        del a_record['record']
+        exc = None
+        try:
+            self.fulcrum_api.record.create(a_record)
+        except Exception as exc:
+            pass
+        self.assertIsInstance(exc, InvalidObjectException)
+        self.assertEqual(str(exc), 'record must exist and not be empty.')
+
+    def test_record_missing_latitude(self):
+        a_record = copy.deepcopy(self.valid_record)
+        del a_record['record']['latitude']
+        exc = None
+        try:
+            self.fulcrum_api.record.create(a_record)
+        except Exception as exc:
+            pass
+        self.assertIsInstance(exc, InvalidObjectException)
+        self.assertEqual(str(exc), 'record latitude must exist and be of type int or float.')
+
+    def test_record_missing_longitude(self):
+        a_record = copy.deepcopy(self.valid_record)
+        del a_record['record']['longitude']
+        exc = None
+        try:
+            self.fulcrum_api.record.create(a_record)
+        except Exception as exc:
+            pass
+        self.assertIsInstance(exc, InvalidObjectException)
+        self.assertEqual(str(exc), 'record longitude must exist and be of type int or float.')
+
+    def test_record_missing_form_id(self):
+        a_record = copy.deepcopy(self.valid_record)
+        del a_record['record']['form_id']
+        exc = None
+        try:
+            self.fulcrum_api.record.create(a_record)
+        except Exception as exc:
+            pass
+        self.assertIsInstance(exc, InvalidObjectException)
+        self.assertEqual(str(exc), 'record form_id must exist and be of type str.')
+
+    def test_record_missing_form_values(self):
+        a_record = copy.deepcopy(self.valid_record)
+        del a_record['record']['form_values']
+        exc = None
+        try:
+            self.fulcrum_api.record.create(a_record)
+        except Exception as exc:
+            pass
+        self.assertIsInstance(exc, InvalidObjectException)
+        self.assertEqual(str(exc), 'record form_values must exist and be of type dict.')
+
+    def test_record_missing_form_values_empty_dict(self):
+        a_record = copy.deepcopy(self.valid_record)
+        a_record['record']['form_values'] = {}
+        exc = None
+        try:
+            self.fulcrum_api.record.create(a_record)
+        except Exception as exc:
+            pass
+        self.assertIsInstance(exc, InvalidObjectException)
+        self.assertEqual(str(exc), 'record form_values must exist and be of type dict and not be empty.')

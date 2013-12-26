@@ -4,7 +4,7 @@ import logging
 import requests
 
 from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InvalidObjectException, InternalServerErrorException
-from .validators import FormValidator
+from .validators import FormValidator, RecordValidator
 
 supported_versions = [2]
 
@@ -73,3 +73,8 @@ class BaseAPI(object):
 class Form(BaseAPI):
     path = '/forms'
     validator_class = FormValidator
+
+
+class Record(BaseAPI):
+    path = '/records'
+    validator_class = RecordValidator
