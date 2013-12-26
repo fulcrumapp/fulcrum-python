@@ -105,7 +105,7 @@ class FormTest(unittest.TestCase):
             self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
-            self.assertEqual(str(exc), 'form elements must exist and not be empty. form name must exist and not be empty.')
+            self.assertTrue(str(exc) == 'form elements must exist and not be empty. form name must exist and not be empty.' or str(exc) == 'form name must exist and not be empty. form elements must exist and not be empty.')
 
     @httpretty.activate
     def test_create_valid_form(self):
