@@ -74,7 +74,7 @@ class FormTest(unittest.TestCase):
         except Exception as exc:
             self.assertIsInstance(exc, InternalServerErrorException)
 
-    def test_create_needs_form(self):
+    def test_create_no_form(self):
         try:
             self.fulcrum_api.form.create({'cats': True})
         except Exception as exc:
@@ -96,6 +96,16 @@ class FormTest(unittest.TestCase):
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'form elements must exist and not be empty.')
+
+    def test_create_form_no_name_no_elements(self):
+        a_form = copy.deepcopy(valid_form)
+        del a_form['form']['name']
+        del a_form['form']['elements']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'form elements must exist and not be empty. form name must exist and not be empty.')
 
     @httpretty.activate
     def test_create_valid_form(self):
