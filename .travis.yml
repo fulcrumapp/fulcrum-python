@@ -8,4 +8,8 @@ install:
   - "python setup.py install"
   - "pip install -r test_requirements.txt"
 # command to run tests
-script: nosetests
+script: nosetests --with-coverage --cover-package fulcrum
+after_script:
+  # Report coverage results to coveralls.io
+  - pip install coveralls
+  - coveralls
