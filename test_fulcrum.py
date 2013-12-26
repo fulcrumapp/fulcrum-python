@@ -97,19 +97,14 @@ class FormTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'form elements must exist and not be empty.')
 
-
-
-
-
-    """
+    @httpretty.activate
     def test_create_valid_form(self):
-        try:
-            self.fulcrum_api.form.create({'form': {'name': 'cats', 'elements': [{'foo': 'bar'}]}})
-        except Exception as exc:
-            pass
-        self.assertIsInstance(exc, InvalidObjectException)
-        self.assertEqual(str(exc), 'form elements must exist and not be empty.')
-    """
+        httpretty.register_uri(httpretty.POST, api_root + '/forms',
+            body='{"form": {"id": 1}}',
+            status=200)
+        form = self.fulcrum_api.form.create(valid_form)
+        self.assertIsInstance(form, dict)
+        self.assertTrue(form['form']['id'] == 1)
 
 
 class RecordTest(unittest.TestCase):
