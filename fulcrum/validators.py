@@ -6,10 +6,7 @@ class BaseValidator(object):
 
     def add_error(self, key, data_name, error):
         if key in self.errors:
-            if data_name in self.errors[key]:
-                self.errors[key][data_name].append(error)
-            else:
-                self.errors[key][data_name] = [error]
+            self.errors[key].setdefault(data_name, []).append(error)
         else:
             self.errors[key] = {}
             self.errors[key][data_name] = [error]
