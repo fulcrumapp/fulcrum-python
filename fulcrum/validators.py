@@ -28,9 +28,6 @@ class BaseValidator(object):
                         for error in self.errors[key][data_name]:
                             error_sentence = '{0} {1} {2}.'.format(key, data_name, error)
                             printable_errors.append(error_sentence)
-
-
-
             return ' '.join(printable_errors)
 
 
