@@ -72,6 +72,14 @@ class BaseAPI(object):
         if method != 'delete':
             return resp.json()
 
+    def update(self, id, obj):
+        if hasattr(self, 'validator_class'):
+            self.validator = self.validator_class(obj)
+            if not self.validator.valid:
+                raise InvalidObjectException(self.validator)
+        api_resp = self.call('put', '{0}/{1}'.format(self.path, id), data=obj, extra_headers={'Content-Type': 'application/json'})
+        return api_resp
+
 
 class Form(BaseAPI):
     path = '/forms'

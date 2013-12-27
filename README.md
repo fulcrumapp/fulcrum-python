@@ -72,6 +72,30 @@ Returns a dict containing a form and raises `fulcrum.exceptions.NotFoundExceptio
         }
     }
 
+#### Delete a Form
+
+    from fulcrum import Fulcrum
+
+    fulcrum = Fulcrum(key='super-secret-key')
+
+    fulcrum.form.delete('5b656cd8-f3ef-43e9-8d22-84d015052778')
+
+Returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
+
+#### Update a Form
+
+    from fulcrum import Fulcrum
+
+    fulcrum = Fulcrum(key='super-secret-key')
+
+    form = fulcrum.form.find('0552ca09-c521-4e48-b46c-9114e866ce06')
+
+    form['form']['name'] = 'A better name for this form'
+
+    new_form = fulcrum.form.update('0552ca09-c521-4e48-b46c-9114e866ce06', form)
+
+Returns a dict containing the updated form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
+
 ## Testing
 
 You'll need some additional things to run tests, so:
