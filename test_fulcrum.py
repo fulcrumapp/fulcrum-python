@@ -116,6 +116,15 @@ class FormTest(unittest.TestCase):
         self.assertIsInstance(form, dict)
         self.assertTrue(form['form']['id'] == 1)
 
+    @httpretty.activate
+    def test_update(self):
+        httpretty.register_uri(httpretty.PUT, api_root + '/forms/abc-123',
+            body='{"form": {"id": "abc-123"}}',
+            status=200)
+        form = self.fulcrum_api.form.update('abc-123', valid_form)
+        self.assertIsInstance(form, dict)
+        self.assertTrue(form['form']['id'] == 'abc-123')
+
 
 class RecordTest(unittest.TestCase):
     valid_record = {
