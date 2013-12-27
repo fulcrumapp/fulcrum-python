@@ -81,7 +81,7 @@ class FormTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'form must exist and not be empty.')
 
-    def test_create_invalid_form_name(self):
+    def test_create_invalid_name(self):
         a_form = copy.deepcopy(valid_form)
         a_form['form']['name'] = ''
         try:
@@ -90,14 +90,14 @@ class FormTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'form name must exist and not be empty.')
 
-    def test_create_invalid_form_elements(self):
+    def test_create_invalid_elements(self):
         try:
             self.fulcrum_api.form.create({'form': {'name': 'cats', 'elements': []}})
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'form elements must exist and not be empty.')
 
-    def test_create_form_no_name_no_elements(self):
+    def test_create_no_name_no_elements(self):
         a_form = copy.deepcopy(valid_form)
         del a_form['form']['name']
         del a_form['form']['elements']
@@ -108,7 +108,7 @@ class FormTest(unittest.TestCase):
             self.assertTrue(str(exc) == 'form elements must exist and not be empty. form name must exist and not be empty.' or str(exc) == 'form name must exist and not be empty. form elements must exist and not be empty.')
 
     @httpretty.activate
-    def test_create_valid_form(self):
+    def test_create_valid(self):
         httpretty.register_uri(httpretty.POST, api_root + '/forms',
             body='{"form": {"id": 1}}',
             status=200)
@@ -124,6 +124,16 @@ class FormTest(unittest.TestCase):
         form = self.fulcrum_api.form.update('abc-123', valid_form)
         self.assertIsInstance(form, dict)
         self.assertTrue(form['form']['id'] == 'abc-123')
+
+    def test_update_no_name(self):
+        a_form = copy.deepcopy(valid_form)
+        del a_form['form']['name']
+        a_form['form']['id'] = 'abc-123'
+        try:
+            self.fulcrum_api.form.update('abc-123', a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'form name must exist and not be empty.')
 
 
 class RecordTest(unittest.TestCase):
@@ -151,7 +161,7 @@ class RecordTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'record must exist and not be empty.')
 
-    def test_record_missing_latitude(self):
+    def test_missing_latitude(self):
         a_record = copy.deepcopy(self.valid_record)
         del a_record['record']['latitude']
         try:
@@ -160,7 +170,7 @@ class RecordTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'record latitude must exist and be of type int or float.')
 
-    def test_record_missing_longitude(self):
+    def test_missing_longitude(self):
         a_record = copy.deepcopy(self.valid_record)
         del a_record['record']['longitude']
         try:
@@ -169,7 +179,7 @@ class RecordTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'record longitude must exist and be of type int or float.')
 
-    def test_record_missing_form_id(self):
+    def test_missing_form_id(self):
         a_record = copy.deepcopy(self.valid_record)
         del a_record['record']['form_id']
         try:
@@ -178,7 +188,7 @@ class RecordTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'record form_id must exist and be of type str.')
 
-    def test_record_missing_form_values(self):
+    def test_missing_form_values(self):
         a_record = copy.deepcopy(self.valid_record)
         del a_record['record']['form_values']
         try:
@@ -187,7 +197,7 @@ class RecordTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'record form_values must exist and be of type dict.')
 
-    def test_record_missing_form_values_empty_dict(self):
+    def test_missing_form_values_empty_dict(self):
         a_record = copy.deepcopy(self.valid_record)
         a_record['record']['form_values'] = {}
         try:
