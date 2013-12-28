@@ -86,6 +86,61 @@ Returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if t
 
 Returns a dict containing the updated form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
 
+### Records
+
+#### Get All Records
+
+    from fulcrum import Fulcrum
+    fulcrum = Fulcrum(key='super-secret-key')
+    records = fulcrum.record.all()
+
+Returns a dict containing forms and pagination info - In this case we're returning records from all forms, probably not something you'd want to do
+
+    {
+        'per_page': 20000,
+        'total_count': 16,
+        'current_page': 1,
+        'total_pages': 1,
+        'records': [
+            {
+                'latitude': 39.6554223960635,
+                'longitude': -105.000037243688,
+                'altitude': 1629.0,
+                'id': 'db3eff40-9b7b-4a37-baaa-c10891d1c2ec',
+                'form_id': '49fd15ed-b24b-42ea-a0d5-2293276ec27e',
+                'created_by': 'Jason Sanford',
+                'form_values': {
+                    '93d8': 'Englewood',
+                    '0e7b': {
+                        'choice_values': ['C', 'D'],
+                        'other_values': []
+                    }
+                }
+            },
+            ...
+        ]
+    }
+
+#### URL Parameters
+
+Set URL parameters defined in the [Fulcrum Docs](http://fulcrumapp.com/developers/api/records/#query-params) to filter data for more accurate results. Supported parameters are `form_id`, `bounding_box`, `updated_since`, `project_id`, `page`, `per_page`. Below are a few examples.
+
+Get records from a specific form:
+
+    from fulcrum import Fulcrum
+    fulcrum = Fulcrum(key='super-secret-key')
+    records = fulcrum.record.all(params={'form_id': '5b656cd8-f3ef-43e9-8d22-84d015052778'})
+
+or get records within a bounding box:
+
+    from fulcrum import Fulcrum
+    fulcrum = Fulcrum(key='super-secret-key')
+    params = {
+        'form_id': '5b656cd8-f3ef-43e9-8d22-84d015052778',
+        'bounding_box': '39.55729,-105.05414,39.58931,-104.98273'
+    }
+    records = fulcrum.record.all(params=params)
+
 ## Testing
 
 You'll need some additional things to run tests, so:
