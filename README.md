@@ -66,7 +66,7 @@ Get a Single Form:
 
     form = fulcrum.form.find('5b656cd8-f3ef-43e9-8d22-84d015052778')
 
-Find returns a dict containing a form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
+Find returns a dict containing a form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found).
 
     {
         'form': {
