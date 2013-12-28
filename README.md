@@ -19,13 +19,13 @@ This is a work in progress:
 
 ### Forms
 
-#### Get All Forms
+Get All Forms:
 
     from fulcrum import Fulcrum
     fulcrum = Fulcrum(key='super-secret-key')
     forms = fulcrum.form.all()
 
-Returns a dict containing forms and pagination info
+All returns a dict containing forms and pagination info:
 
     {
         'forms': [
@@ -41,13 +41,32 @@ Returns a dict containing forms and pagination info
         'per_page': 20000
     }
 
-#### Get a Sigle Form
+Create a Form:
 
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
+    form = {
+        'form': {
+            'created_at': '2013-12-17T23:11:01Z',
+            'record_count': 5,
+            'name': 'Denver Street Food',
+            'description': 'Food Carts and Trucks in Denver',
+            'elements': [
+                {
+                    'default_value': None,
+                    'data_name': 'name',
+                    'description': 'The name of that food joint',
+                    'label': 'Name',
+                    'type': 'TextField'
+                },
+            ]
+        }
+    }
+    created = fulcrum.form.create(form)
+
+Get a Single Form:
+
     form = fulcrum.form.find('5b656cd8-f3ef-43e9-8d22-84d015052778')
 
-Returns a dict containing a form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
+Find returns a dict containing a form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
 
     {
         'form': {
@@ -68,33 +87,29 @@ Returns a dict containing a form and raises `fulcrum.exceptions.NotFoundExceptio
         }
     }
 
-#### Delete a Form
+Delete a Form:
 
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
     fulcrum.form.delete('5b656cd8-f3ef-43e9-8d22-84d015052778')
 
-Returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
+Delete returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found).
 
-#### Update a Form
+Update a Form:
 
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
     form = fulcrum.form.find('0552ca09-c521-4e48-b46c-9114e866ce06')
     form['form']['name'] = 'A better name for this form'
     new_form = fulcrum.form.update('0552ca09-c521-4e48-b46c-9114e866ce06', form)
 
-Returns a dict containing the updated form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found)
+Update returns a dict containing the updated form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found).
 
 ### Records
 
-#### Get All Records
+Get All Records
 
     from fulcrum import Fulcrum
     fulcrum = Fulcrum(key='super-secret-key')
     records = fulcrum.record.all()
 
-Returns a dict containing forms and pagination info - In this case we're returning records from all forms, probably not something you'd want to do
+All returns a dict containing forms and pagination info. In this case we're returning records from all forms, probably not something you'd want to do.
 
     {
         'per_page': 20000,
