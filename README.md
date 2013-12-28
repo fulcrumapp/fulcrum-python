@@ -127,19 +127,50 @@ Set URL parameters defined in the [Fulcrum Docs](http://fulcrumapp.com/developer
 
 Get records from a specific form:
 
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
     records = fulcrum.record.all(params={'form_id': '5b656cd8-f3ef-43e9-8d22-84d015052778'})
 
-or get records within a bounding box:
+Get records within a bounding box:
 
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
     params = {
         'form_id': '5b656cd8-f3ef-43e9-8d22-84d015052778',
         'bounding_box': '39.55729,-105.05414,39.58931,-104.98273'
     }
     records = fulcrum.record.all(params=params)
+
+Create a record:
+
+    record = {
+        'record': {
+            'latitude': 39.6554223960635,
+            'longitude': -105.000037243688,
+            'altitude': 1629.0,
+            'id': 'db3eff40-9b7b-4a37-baaa-c10891d1c2ec',
+            'form_id': '49fd15ed-b24b-42ea-a0d5-2293276ec27e',
+            'created_by': 'Jason Sanford',
+            'form_values': {
+                '93d8': 'Englewood',
+                '0e7b': {
+                    'choice_values': ['C', 'D'],
+                    'other_values': []
+                }
+            }
+        }
+    }
+    created_record = fulcrum.record.create(record)
+
+Get a specific record:
+
+    record = fulcrum.record.find('7465ddd4-3c8c-4c47-ac73-7963c076955a')
+
+Update the record:
+
+    record['record']['latitude'], record['record']['longitude'] = 0, 0
+    record['record']['form_id'] = '5b656cd8-f3ef-43e9-8d22-84d015052778'
+    fulcrum.record.update(record['record']['id'], record)
+
+Delete the record:
+
+    fulcrum.record.delete(record['record']['id'])
 
 ## Testing
 
