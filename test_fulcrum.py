@@ -7,6 +7,7 @@ import httpretty
 from fulcrum import Fulcrum
 from fulcrum.api import APIConfig
 from fulcrum.exceptions import NotFoundException, InvalidAPIVersionException, InvalidObjectException, InternalServerErrorException
+from fulcrum.validators import FormValidator
 
 key = 'super_secret_key'
 api_root = 'https://api.fulcrumapp.com/api/v2'
@@ -152,6 +153,15 @@ class FormTest(unittest.TestCase):
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'abc key must be unique.')
+
+    def test_element_no_type(self):
+        a_form = copy.deepcopy(self.valid_form)
+        del a_form['form']['elements'][0]['type']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'abc type must exist and be one of {0}.'.format(FormValidator.TYPES))
 
     @httpretty.activate
     def test_create_valid(self):
