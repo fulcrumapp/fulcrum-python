@@ -30,13 +30,19 @@ class FormTest(unittest.TestCase):
                     'key': 'abc',
                     'label': 'Name',
                     'data_name': 'name',
-                    'type': 'TextField'
+                    'type': 'TextField',
+                    'required': False,
+                    'hidden': False,
+                    'disabled': False
                 },
                 {
                     'key': '123',
                     'label': 'Cart Type',
                     'data_name': 'cart_type',
-                    'type': 'ChoiceField'
+                    'type': 'ChoiceField',
+                    'required': False,
+                    'hidden': False,
+                    'disabled': False
                 }
             ]
         }

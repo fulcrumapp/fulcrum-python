@@ -71,6 +71,12 @@ class FormValidator(BaseValidator):
             if 'type' not in element or ('type' in element and element['type'] not in self.TYPES):
                 self.add_error(element['key'], 'type', 'must exist and be one of {0}'.format(self.TYPES))
 
+            boolean_members = ['required', 'hidden', 'disabled']
+            for boolean_member in boolean_members:
+                if boolean_member not in element or (boolean_member in element and not isinstance(element[boolean_member], bool)):
+                    self.add_error(element['key'], boolean_member, 'must exist and be of type bool')
+
+
 
 class RecordValidator(BaseValidator):
     required_members = {
