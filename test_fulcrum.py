@@ -123,6 +123,15 @@ class FormTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertTrue(str(exc) == 'elements element must be of type dict and not be empty.')
 
+    def test_create_element_missing_data_name(self):
+        a_form = copy.deepcopy(valid_form)
+        del a_form['form']['elements'][0]['data_name']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertTrue(str(exc) == 'abc data_name is required.')
+
     def test_element_no_key(self):
         a_form = copy.deepcopy(valid_form)
         del a_form['form']['elements'][0]['key']
