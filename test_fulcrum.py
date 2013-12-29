@@ -15,10 +15,14 @@ valid_form = {
         'name': 'whatever',
         'elements': [
             {
-                'key': 'abc'
+                'key': 'abc',
+                'label': 'Name',
+                'data_name': 'name'
             },
             {
-                'key': '123'
+                'key': '123',
+                'label': 'Description',
+                'data_name': 'description'
             }
         ]
     }
@@ -117,7 +121,7 @@ class FormTest(unittest.TestCase):
             self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
-            self.assertEqual(str(exc), 'elements element must be of type dict and not be empty.')
+            self.assertEqual(str(exc), 'element key must exist and not be empty.')
 
     def test_element_duplicate_key(self):
         a_form = copy.deepcopy(valid_form)

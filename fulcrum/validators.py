@@ -47,6 +47,7 @@ class FormValidator(BaseValidator):
             else:
                 for element in form['elements']:
                     self.field(element)
+
     def field(self, element):
         if not isinstance(element, dict) or (isinstance(element, dict) and not len(element)):
             self.add_error('elements', 'element', 'must be of type dict and not be empty')
@@ -59,6 +60,11 @@ class FormValidator(BaseValidator):
                 return
 
             self.items[element['key']] = element
+
+            required_members = ['label', 'data_name']
+            for required_member in required_members:
+                if required_member not in element:
+                    self.add_error(element['key'], required_member, 'is required')
 
 
 class RecordValidator(BaseValidator):
