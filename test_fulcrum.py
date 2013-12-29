@@ -169,6 +169,15 @@ class FormTest(unittest.TestCase):
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertEqual(str(exc), 'abc type must exist and be one of {0}.'.format(FormValidator.TYPES))
 
+    def test_element_no_required(self):
+        a_form = copy.deepcopy(self.valid_form)
+        del a_form['form']['elements'][0]['required']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'abc required must exist and be of type bool.')
+
     @httpretty.activate
     def test_create_valid(self):
         httpretty.register_uri(httpretty.POST, api_root + '/forms',
