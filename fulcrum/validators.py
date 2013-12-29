@@ -2,6 +2,7 @@ class BaseValidator(object):
     def __init__(self, obj):
         self.data = obj
         self.errors = {}
+        self.items = {}
         self.validate()
 
     def add_error(self, key, data_name, error):
@@ -43,6 +44,21 @@ class FormValidator(BaseValidator):
                 self.add_error('form', 'name', 'must exist and not be empty')
             if 'elements' not in form or ('elements' in form and isinstance(form['elements'], list) and not len(form['elements'])):
                 self.add_error('form', 'elements', 'must exist and not be empty')
+            else:
+                for element in form['elements']:
+                    self.field(element)
+    def field(self, element):
+        if not isinstance(element, dict) or (isinstance(element, dict) and not len(element)):
+            self.add_error('elements', 'element', 'must be of type dict and not be empty')
+        else:
+            if 'key' not in element or ('key' in element and not element['key']):
+                self.add_error('element', 'key', 'must exist and not be empty')
+                return
+            if element['key'] in self.items:
+                self.add_error(element['key'], 'key', 'must be unique')
+                return
+
+            self.items[element['key']] = element
 
 
 class RecordValidator(BaseValidator):

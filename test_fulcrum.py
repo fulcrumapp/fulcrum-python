@@ -15,7 +15,10 @@ valid_form = {
         'name': 'whatever',
         'elements': [
             {
-                'name': 'element1'
+                'key': 'abc'
+            },
+            {
+                'key': '123'
             }
         ]
     }
@@ -106,6 +109,24 @@ class FormTest(unittest.TestCase):
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
             self.assertTrue(str(exc) == 'form elements must exist and not be empty. form name must exist and not be empty.' or str(exc) == 'form name must exist and not be empty. form elements must exist and not be empty.')
+
+    def test_element_no_key(self):
+        a_form = copy.deepcopy(valid_form)
+        del a_form['form']['elements'][0]['key']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'elements element must be of type dict and not be empty.')
+
+    def test_element_duplicate_key(self):
+        a_form = copy.deepcopy(valid_form)
+        a_form['form']['elements'][1]['key'] = a_form['form']['elements'][0]['key']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'abc key must be unique.')
 
     @httpretty.activate
     def test_create_valid(self):
