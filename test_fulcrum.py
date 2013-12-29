@@ -10,23 +10,6 @@ from fulcrum.exceptions import NotFoundException, InvalidAPIVersionException, In
 
 key = 'super_secret_key'
 api_root = 'https://api.fulcrumapp.com/api/v2'
-valid_form = {
-    'form': {
-        'name': 'whatever',
-        'elements': [
-            {
-                'key': 'abc',
-                'label': 'Name',
-                'data_name': 'name'
-            },
-            {
-                'key': '123',
-                'label': 'Description',
-                'data_name': 'description'
-            }
-        ]
-    }
-}
 
 
 class APIConfigTest(unittest.TestCase):
@@ -38,6 +21,24 @@ class APIConfigTest(unittest.TestCase):
 
 
 class FormTest(unittest.TestCase):
+    valid_form = {
+        'form': {
+            'name': 'whatever',
+            'elements': [
+                {
+                    'key': 'abc',
+                    'label': 'Name',
+                    'data_name': 'name'
+                },
+                {
+                    'key': '123',
+                    'label': 'Description',
+                    'data_name': 'description'
+                }
+            ]
+        }
+    }
+
     def setUp(self):
         self.fulcrum_api = Fulcrum(key=key)
 
@@ -77,7 +78,7 @@ class FormTest(unittest.TestCase):
     def test_create_500(self):
         httpretty.register_uri(httpretty.POST, api_root + '/forms', status=500)
         try:
-            self.fulcrum_api.form.create(valid_form)
+            self.fulcrum_api.form.create(self.valid_form)
         except Exception as exc:
             self.assertIsInstance(exc, InternalServerErrorException)
 
@@ -89,7 +90,7 @@ class FormTest(unittest.TestCase):
             self.assertEqual(str(exc), 'form must exist and not be empty.')
 
     def test_create_invalid_name(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         a_form['form']['name'] = ''
         try:
             self.fulcrum_api.form.create(a_form)
@@ -105,7 +106,7 @@ class FormTest(unittest.TestCase):
             self.assertEqual(str(exc), 'form elements must exist and not be empty.')
 
     def test_create_no_name_no_elements(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         del a_form['form']['name']
         del a_form['form']['elements']
         try:
@@ -115,7 +116,7 @@ class FormTest(unittest.TestCase):
             self.assertTrue(str(exc) == 'form elements must exist and not be empty. form name must exist and not be empty.' or str(exc) == 'form name must exist and not be empty. form elements must exist and not be empty.')
 
     def test_create_bad_element(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         a_form['form']['elements'][0] = {}
         try:
             self.fulcrum_api.form.create(a_form)
@@ -124,7 +125,7 @@ class FormTest(unittest.TestCase):
             self.assertTrue(str(exc) == 'elements element must be of type dict and not be empty.')
 
     def test_create_element_missing_data_name(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         del a_form['form']['elements'][0]['data_name']
         try:
             self.fulcrum_api.form.create(a_form)
@@ -133,7 +134,7 @@ class FormTest(unittest.TestCase):
             self.assertTrue(str(exc) == 'abc data_name is required.')
 
     def test_element_no_key(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         del a_form['form']['elements'][0]['key']
         try:
             self.fulcrum_api.form.create(a_form)
@@ -142,7 +143,7 @@ class FormTest(unittest.TestCase):
             self.assertEqual(str(exc), 'element key must exist and not be empty.')
 
     def test_element_duplicate_key(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         a_form['form']['elements'][1]['key'] = a_form['form']['elements'][0]['key']
         try:
             self.fulcrum_api.form.create(a_form)
@@ -155,7 +156,7 @@ class FormTest(unittest.TestCase):
         httpretty.register_uri(httpretty.POST, api_root + '/forms',
             body='{"form": {"id": 1}}',
             status=200)
-        form = self.fulcrum_api.form.create(valid_form)
+        form = self.fulcrum_api.form.create(self.valid_form)
         self.assertIsInstance(form, dict)
         self.assertTrue(form['form']['id'] == 1)
 
@@ -164,12 +165,12 @@ class FormTest(unittest.TestCase):
         httpretty.register_uri(httpretty.PUT, api_root + '/forms/abc-123',
             body='{"form": {"id": "abc-123"}}',
             status=200)
-        form = self.fulcrum_api.form.update('abc-123', valid_form)
+        form = self.fulcrum_api.form.update('abc-123', self.valid_form)
         self.assertIsInstance(form, dict)
         self.assertTrue(form['form']['id'] == 'abc-123')
 
     def test_update_no_name(self):
-        a_form = copy.deepcopy(valid_form)
+        a_form = copy.deepcopy(self.valid_form)
         del a_form['form']['name']
         a_form['form']['id'] = 'abc-123'
         try:
