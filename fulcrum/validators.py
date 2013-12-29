@@ -34,6 +34,8 @@ class BaseValidator(object):
 
 
 class FormValidator(BaseValidator):
+    TYPES = ['TextField', 'ChoiceField', 'ClassificationField', 'PhotoField', 'DateTimeField', 'Section']
+
     def validate(self):
         if not 'form' in self.data:
             self.errors.setdefault('form', []).append('must exist and not be empty')
@@ -65,6 +67,9 @@ class FormValidator(BaseValidator):
             for required_member in required_members:
                 if required_member not in element:
                     self.add_error(element['key'], required_member, 'is required')
+
+            if 'type' not in element or ('type' in element and element['type'] not in self.TYPES):
+                self.add_error(element['key'], 'type', 'must exist and be one of {0}'.format(self.TYPES))
 
 
 class RecordValidator(BaseValidator):

@@ -28,12 +28,14 @@ class FormTest(unittest.TestCase):
                 {
                     'key': 'abc',
                     'label': 'Name',
-                    'data_name': 'name'
+                    'data_name': 'name',
+                    'type': 'TextField'
                 },
                 {
                     'key': '123',
-                    'label': 'Description',
-                    'data_name': 'description'
+                    'label': 'Cart Type',
+                    'data_name': 'cart_type',
+                    'type': 'ChoiceField'
                 }
             ]
         }
