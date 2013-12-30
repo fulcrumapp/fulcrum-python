@@ -15,6 +15,20 @@ This is a work in progress:
 - [ ] Classification Sets
 - [ ] Choice Lists
 
+## Installation
+
+Install via pip:
+
+    pip install fulcrum
+
+or from local sources:
+
+    python setup.py install
+
+## Dependencies
+
+Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of our HTTP chatting, and is automatically installed when using the steps above.
+
 ## Usage
 
 ### Forms
