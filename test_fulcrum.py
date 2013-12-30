@@ -24,25 +24,88 @@ class APIConfigTest(unittest.TestCase):
 class FormTest(unittest.TestCase):
     valid_form = {
         'form': {
-            'name': 'whatever',
+            'name': 'Fire Hydrants',
+            'description': 'Locations of fire hydrants near my house',
             'elements': [
                 {
-                    'key': 'abc',
-                    'label': 'Name',
-                    'data_name': 'name',
+                    'key': 'a',
+                    'label': 'Hydrant ID',
+                    'data_name': 'hydrant_id',
                     'type': 'TextField',
-                    'required': False,
+                    'description': 'The ID of the fire hydrant',
+                    'required': True,
                     'hidden': False,
                     'disabled': False
                 },
                 {
-                    'key': '123',
-                    'label': 'Cart Type',
-                    'data_name': 'cart_type',
-                    'type': 'ChoiceField',
+                    'key': 'b',
+                    'label': 'Year Manufactured',
+                    'data_name': 'year_manufactured',
+                    'type': 'TextField',
+                    'description': 'The four digit year the hydrant was manufactured',
                     'required': False,
                     'hidden': False,
-                    'disabled': False
+                    'disabled': False,
+                    'numeric': True
+                },
+                {
+                    'key': 'c',
+                    'label': 'Structural',
+                    'data_name': 'structural',
+                    'type': 'Section',
+                    'description': 'Structural information about the hydrant',
+                    'required': False,
+                    'hidden': False,
+                    'disabled': False,
+                    'elements': [
+                        {
+                            'key': 'd',
+                            'label': 'Color',
+                            'data_name': 'color',
+                            'type': 'ChoiceField',
+                            'description': 'The color of the fire hydrant',
+                            'required': True,
+                            'hidden': False,
+                            'disabled': False,
+                            'choices': [
+                                {
+                                    'value': 'red',
+                                    'label': 'Red'
+                                },
+                                {
+                                    'value': 'yellow',
+                                    'label': 'Yellow'
+                                },
+                                {
+                                    'value': 'white',
+                                    'label': 'White'
+                                }
+                            ],
+                            'allow_other': True
+                        },
+                        {
+                            'key': 'e',
+                            'label': 'Height',
+                            'data_name': 'height',
+                            'type': 'TextField',
+                            'description': 'The hight of the fire hydrant in meters',
+                            'required': True,
+                            'hidden': False,
+                            'disabled': False,
+                            'numeric': True
+                        },
+                        {
+                            'key': 'f',
+                            'label': 'Type',
+                            'data_name': 'type',
+                            'type': 'ClassificationField',
+                            'classification_set_id': 9999,
+                            'description': 'The type of fire hydrant',
+                            'required': False,
+                            'hidden': False,
+                            'disabled': False
+                        }
+                    ]
                 }
             ]
         }
@@ -140,7 +203,7 @@ class FormTest(unittest.TestCase):
             self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
-            self.assertTrue(str(exc) == 'abc data_name is required.')
+            self.assertEqual(str(exc), 'a data_name must exist.')
 
     def test_element_no_key(self):
         a_form = copy.deepcopy(self.valid_form)
@@ -158,7 +221,7 @@ class FormTest(unittest.TestCase):
             self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
-            self.assertEqual(str(exc), 'abc key must be unique.')
+            self.assertEqual(str(exc), 'a key must be unique.')
 
     def test_element_no_type(self):
         a_form = copy.deepcopy(self.valid_form)
@@ -167,7 +230,7 @@ class FormTest(unittest.TestCase):
             self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
-            self.assertEqual(str(exc), 'abc type must exist and be one of {0}.'.format(FormValidator.TYPES))
+            self.assertEqual(str(exc), 'a type must exist and be one of {0}.'.format(FormValidator.TYPES))
 
     def test_element_no_required(self):
         a_form = copy.deepcopy(self.valid_form)
@@ -176,7 +239,53 @@ class FormTest(unittest.TestCase):
             self.fulcrum_api.form.create(a_form)
         except Exception as exc:
             self.assertIsInstance(exc, InvalidObjectException)
-            self.assertEqual(str(exc), 'abc required must exist and be of type bool.')
+            self.assertEqual(str(exc), 'a required must exist and be of type bool.')
+
+    def test_element_classification_field_missing_classification_set_id(self):
+        a_form = copy.deepcopy(self.valid_form)
+        del a_form['form']['elements'][2]['elements'][2]['classification_set_id']
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'f classification_set_id must exist.')
+
+    def test_element_section_not_a_list(self):
+        a_form = copy.deepcopy(self.valid_form)
+        a_form['form']['elements'][2]['elements'] = 'a random string that is not a list or tuple'
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'c elements must exist and be of type list or tuple.')
+
+    def test_element_section_empty_list(self):
+        a_form = copy.deepcopy(self.valid_form)
+        a_form['form']['elements'][2]['elements'] = []
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'c elements must contain additional elements.')
+
+    def test_element_choices_empty_list(self):
+        a_form = copy.deepcopy(self.valid_form)
+        a_form['form']['elements'][2]['elements'][0]['choices'] = []
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'd choices must exist, be of type list or tuple, and not be empty.')
+
+    def test_element_choices_choice_list_id_none(self):
+        a_form = copy.deepcopy(self.valid_form)
+        del a_form['form']['elements'][2]['elements'][0]['choices']
+        a_form['form']['elements'][2]['elements'][0]['choice_list_id'] = None
+        try:
+            self.fulcrum_api.form.create(a_form)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'd choice_list_id must exist.')
 
     @httpretty.activate
     def test_create_valid(self):

@@ -66,15 +66,36 @@ class FormValidator(BaseValidator):
             required_members = ['label', 'data_name']
             for required_member in required_members:
                 if required_member not in element:
-                    self.add_error(element['key'], required_member, 'is required')
+                    self.add_error(element['key'], required_member, 'must exist')
 
             if 'type' not in element or ('type' in element and element['type'] not in self.TYPES):
                 self.add_error(element['key'], 'type', 'must exist and be one of {0}'.format(self.TYPES))
+                return
 
             boolean_members = ['required', 'hidden', 'disabled']
             for boolean_member in boolean_members:
                 if boolean_member not in element or (boolean_member in element and not isinstance(element[boolean_member], bool)):
                     self.add_error(element['key'], boolean_member, 'must exist and be of type bool')
+
+            if element['type'] == 'ClassificationField':
+                if 'classification_set_id' not in element:
+                    self.add_error(element['key'], 'classification_set_id', 'must exist')
+            elif element['type'] == 'Section':
+                if 'elements' not in element or ('elements' in element and not isinstance(element['elements'], (list, tuple))):
+                    self.add_error(element['key'], 'elements', 'must exist and be of type list or tuple')
+                else:
+                    if not len(element['elements']):
+                        self.add_error(element['key'], 'elements', 'must contain additional elements')
+                    else:
+                        for elem in element['elements']:
+                            self.field(elem)
+            elif  element['type'] == 'ChoiceField':
+                if 'choice_list_id' in element and not element['choice_list_id']:
+                    self.add_error(element['key'], 'choice_list_id', 'must exist')
+                else:
+                    if 'choices' not in element or ('choices' in element and not isinstance(element['choices'], (list, tuple))) or ('choices' in element and isinstance(element['choices'], (list, tuple)) and not len(element['choices'])):
+                        self.add_error(element['key'], 'choices', 'must exist, be of type list or tuple, and not be empty')
+
 
 
 
