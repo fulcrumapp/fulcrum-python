@@ -8,12 +8,12 @@ A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
 
 This is a work in progress:
 
-- [x] Forms
-- [x] Records
-- [ ] Webhooks
-- [ ] Photos
-- [ ] Classification Sets
-- [ ] Choice Lists
+* [X] Forms
+* [X] Records
+* [X] Webhooks
+* [ ] Photos
+* [ ] Classification Sets
+* [ ] Choice Lists
 
 ## Installation
 
