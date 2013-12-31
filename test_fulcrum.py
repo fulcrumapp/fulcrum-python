@@ -1,5 +1,4 @@
 import copy
-import logging
 import unittest
 
 import httpretty
@@ -395,3 +394,43 @@ class RecordTest(unittest.TestCase):
         records = self.fulcrum_api.record.all(params={'form_id': 'abc-123'})
         self.assertIsInstance(records, dict)
         self.assertEqual(len(records['records']), 2)
+
+
+class WebhookTest(unittest.TestCase):
+    valid_webhook = {
+        'webhook': {
+            'url': 'http://google.com/hookit',
+            'name': 'The very best webhook',
+            'active': True
+        }
+    }
+
+    def setUp(self):
+        self.fulcrum_api = Fulcrum(key=key)
+
+    def test_no_webhook(self):
+        a_webhook = copy.deepcopy(self.valid_webhook)
+        del a_webhook['webhook']
+        try:
+            self.fulcrum_api.webhook.create(a_webhook)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'webhook must exist and not be empty.')
+
+    def test_no_url(self):
+        a_webhook = copy.deepcopy(self.valid_webhook)
+        del a_webhook['webhook']['url']
+        try:
+            self.fulcrum_api.webhook.create(a_webhook)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'webhook url must exist.')
+
+    def test_active_not_a_bool(self):
+        a_webhook = copy.deepcopy(self.valid_webhook)
+        a_webhook['webhook']['active'] = 'lobster'
+        try:
+            self.fulcrum_api.webhook.create(a_webhook)
+        except Exception as exc:
+            self.assertIsInstance(exc, InvalidObjectException)
+            self.assertEqual(str(exc), 'webhook active must be of type bool.')

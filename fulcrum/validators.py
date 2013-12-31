@@ -130,3 +130,17 @@ class RecordValidator(BaseValidator):
 
             if 'form_values' in record and record['form_values'] == {}:
                 self.add_error('record', 'form_values', 'must exist and be of type dict and not be empty')
+
+
+class WebhookValidator(BaseValidator):
+    def validate(self):
+        if not 'webhook' in self.data:
+            self.errors.setdefault('webhook', []).append('must exist and not be empty')
+        else:
+            webhook = self.data['webhook']
+
+            if 'url' not in webhook:
+                self.add_error('webhook', 'url', 'must exist')
+
+            if 'active' in webhook and not isinstance(webhook['active'], bool):
+                self.add_error('webhook', 'active', 'must be of type bool')

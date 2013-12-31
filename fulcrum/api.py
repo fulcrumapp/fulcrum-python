@@ -1,10 +1,9 @@
 import json
-import logging
 
 import requests
 
 from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InvalidObjectException, InternalServerErrorException
-from .validators import FormValidator, RecordValidator
+from .validators import FormValidator, RecordValidator, WebhookValidator
 
 supported_versions = [2]
 
@@ -89,3 +88,8 @@ class Form(BaseAPI):
 class Record(BaseAPI):
     path = '/records'
     validator_class = RecordValidator
+
+
+class Webhook(BaseAPI):
+    path = '/webhooks'
+    validator_class = WebhookValidator
