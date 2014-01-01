@@ -201,6 +201,61 @@ Delete the record:
 
     fulcrum.record.delete(record['record']['id'])
 
+### Webhooks
+
+Get all webhooks:
+
+    from fulcrum import Fulcrum
+    fulcrum_api = Fulcrum(key='super-secret-key')
+    webhooks = fulcrum_api.webhook.all()
+
+Returns a dict containing webhooks:
+
+    {
+        'webhooks': [
+            {
+                'name': 'My First Webhook',
+                'url': 'http://whatever.com/fulcrum_hook',
+                'created_at': '2013-12-31T16:57:30Z',
+                'updated_at': '2013-12-31T16:57:30Z',
+                'active': True,
+                'id': 'c78fcd07-ff6d-4b99-8b1e-c9fa1c08331a'
+            },
+            {
+                'name': 'My Second Webhook',
+                'url': 'http://expensive-domain.com/fulcrum_callback',
+                'created_at': '2013-12-31T16:56:59Z',
+                'updated_at': '2013-12-31T16:56:59Z',
+                'active': True,
+                'id': 'b4fb8408-694d-41a6-8ad3-cffe0354c277'
+            }
+        ]
+    }
+
+Get a specific webhook:
+
+    webhook = fulcrum_api.webhook.find('c78fcd07-ff6d-4b99-8b1e-c9fa1c08331a')
+
+Update a webhook:
+
+    webhook['webhook']['name'] = 'A Better Name'
+    webhook['webhook']['url'] = 'http://cats.com/lobster'
+    updated = fulcrum_api.webhook.update(webhook['webhook']['id'], webhook)
+
+Create a webhook:
+
+    webhook = {
+        'webhook': {
+            'name': 'Production Webhook',
+            'url': 'http://myapp.com/callback'
+        }
+    }
+    created = fulcrum_api.webhook.create(webhook)
+
+Delete a webhook:
+
+    fulcrum_api.webhook.delete(created['webhook']['id'])
+
 ## Testing
 
 You'll need some additional things to run tests, so:
