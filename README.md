@@ -8,12 +8,14 @@ A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
 
 This is a work in progress:
 
-* [X] Forms
-* [X] Records
-* [X] Webhooks
-* [ ] Photos
-* [ ] Classification Sets
-* [ ] Choice Lists
+* [Forms](#forms)
+* [Records](#records)
+* [Webhooks](#webhooks)
+* Photos*
+* Classification Sets*
+* Choice Lists*
+
+\* not currently implemented
 
 ## Installation
 
