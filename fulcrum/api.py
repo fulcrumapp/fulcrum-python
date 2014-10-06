@@ -16,7 +16,7 @@ class APIConfig(object):
             raise InvalidAPIVersionException
 
         self.key = key
-        self.api_root = '{0}v{1}'.format(self.uri_root, version)
+        self.api_root = '{0}v{1}/'.format(self.uri_root, version)
 
 
 class BaseAPI(object):
@@ -52,13 +52,17 @@ class BaseAPI(object):
             return resp.json()
 
 
-class Form(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
-    path = '/forms'
+class Forms(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
+    path = 'forms'
 
 
-class Record(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
-    path = '/records'
+class Records(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
+    path = 'records'
 
 
-class Webhook(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
-    path = '/webhooks'
+class Webhooks(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
+    path = 'webhooks'
+
+
+class Photos(BaseAPI, Findable, Searchable):
+    path = 'photos'
