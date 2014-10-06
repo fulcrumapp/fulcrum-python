@@ -2,8 +2,8 @@ import json
 
 import requests
 
-from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InvalidObjectException, InternalServerErrorException
-from .validators import FormValidator, RecordValidator, WebhookValidator
+from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InternalServerErrorException
+from .mixins import Findable, Deleteable, Createable, Searchable, Updateable
 
 supported_versions = [2]
 
@@ -29,26 +29,6 @@ class BaseAPI(object):
     def __init__(self, api_config):
         self.api_config = api_config
 
-    def all(self, params=None):
-        api_resp = self.call('get', self.path, params=params)
-        return api_resp
-
-    def create(self, obj):
-        if hasattr(self, 'validator_class'):
-            self.validator = self.validator_class(obj)
-            if not self.validator.valid:
-                raise InvalidObjectException(self.validator)
-        api_resp = self.call('post', self.path, data=obj, extra_headers={'Content-Type': 'application/json'})
-        return api_resp
-
-
-    def delete(self, id):
-        self.call('delete', '{0}/{1}'.format(self.path, id))
-
-    def find(self, id):
-        api_resp = self.call('get', '{0}/{1}'.format(self.path, id))
-        return api_resp
-
     def call(self, method, path, data=None, extra_headers=None, params=None):
         full_path = self.api_config.api_root + path
         headers = {'X-ApiToken': self.api_config.key}
@@ -71,25 +51,14 @@ class BaseAPI(object):
         if method != 'delete':
             return resp.json()
 
-    def update(self, id, obj):
-        if hasattr(self, 'validator_class'):
-            self.validator = self.validator_class(obj)
-            if not self.validator.valid:
-                raise InvalidObjectException(self.validator)
-        api_resp = self.call('put', '{0}/{1}'.format(self.path, id), data=obj, extra_headers={'Content-Type': 'application/json'})
-        return api_resp
 
-
-class Form(BaseAPI):
+class Form(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = '/forms'
-    validator_class = FormValidator
 
 
-class Record(BaseAPI):
+class Record(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = '/records'
-    validator_class = RecordValidator
 
 
-class Webhook(BaseAPI):
+class Webhook(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = '/webhooks'
-    validator_class = WebhookValidator

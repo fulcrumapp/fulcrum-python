@@ -35,3 +35,4 @@ htmlcov
 .mr.developer.cfg
 .project
 .pydevproject
+go.py
