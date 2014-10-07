@@ -65,3 +65,7 @@ class Photos(BaseAPI, Findable, Searchable):
 
 class Memberships(BaseAPI, Searchable):
     path = 'memberships'
+
+
+class Roles(BaseAPI, Searchable):
+    path = 'roles'
