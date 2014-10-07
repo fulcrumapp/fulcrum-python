@@ -1,11 +1,11 @@
 from .api import APIConfig, Forms, Records, Webhooks
 
-__version__ = '0.0.1'
+__version__ = '1.0.0'
 
 
 class Fulcrum(object):
-    def __init__(self, key, version=2):
-        api_config = APIConfig(key=key, version=version)
+    def __init__(self, key, uri='https://api.fulcrumapp.com'):
+        api_config = APIConfig(key=key, uri=uri)
         self.forms = Forms(api_config=api_config)
         self.records = Records(api_config=api_config)
         self.webhooks = Webhooks(api_config=api_config)

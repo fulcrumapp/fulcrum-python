@@ -2,21 +2,16 @@ import json
 
 import requests
 
-from .exceptions import InvalidAPIVersionException, NotFoundException, UnauthorizedException, InternalServerErrorException
+from .exceptions import NotFoundException, UnauthorizedException, InternalServerErrorException
 from .mixins import Findable, Deleteable, Createable, Searchable, Updateable
 
 supported_versions = [2]
 
 
 class APIConfig(object):
-    uri_root = 'https://api.fulcrumapp.com/api/'
-
-    def __init__(self, key, version=2):
-        if version not in supported_versions:
-            raise InvalidAPIVersionException
-
+    def __init__(self, key, uri):
         self.key = key
-        self.api_root = '{0}v{1}/'.format(self.uri_root, version)
+        self.api_root = '{0}/api/v2/'.format(uri)
 
 
 class BaseAPI(object):
