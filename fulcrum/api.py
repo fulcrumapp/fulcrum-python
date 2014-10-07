@@ -62,6 +62,8 @@ class Webhooks(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable
 class Photos(BaseAPI, Findable, Searchable):
     path = 'photos'
 
+class Videos(BaseAPI, Findable, Searchable):
+    path = 'videos'
 
 class Memberships(BaseAPI, Searchable):
     path = 'memberships'
