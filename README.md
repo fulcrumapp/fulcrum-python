@@ -1,19 +1,8 @@
 # fulcrum-python
 
-[![Build Status](https://api.travis-ci.org/JasonSanford/fulcrum-python.png)](https://travis-ci.org/JasonSanford/fulcrum-python)&nbsp;[![Coverage Status](https://coveralls.io/repos/JasonSanford/fulcrum-python/badge.png?branch=master)](https://coveralls.io/r/JasonSanford/fulcrum-python?branch=master)
+[![Build Status](https://api.travis-ci.org/fulcrumapp/fulcrum-python.png)](https://travis-ci.org/fulcrumapp/fulcrum-python)&nbsp;[![Coverage Status](https://coveralls.io/repos/fulcrumapp/fulcrum-python/badge.png?branch=master)](https://coveralls.io/r/fulcrumapp/fulcrum-python?branch=master)
 
 A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
-
-## Status
-
-This is a work in progress:
-
-* [X] Forms
-* [X] Records
-* [X] Webhooks
-* [ ] Photos
-* [ ] Classification Sets
-* [ ] Choice Lists
 
 ## Installation
 
@@ -29,232 +18,94 @@ or from local sources:
 
 Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of our HTTP chatting, and is automatically installed when using the steps above.
 
+## Supported Resources and Methods
+
+| Resource            | Methods                              |
+|---------------------|--------------------------------------|
+| Forms               | find, search, create, update, delete |
+| Records             | find, search, create, update, delete |
+| Photos              | find, search                         |
+| Projects            | search                               |
+| Changesets          | find, search, create, update, close  |
+| Choice Lists        | find, search, create, update, delete |
+| Classification Sets | find, search, create, update, delete |
+| Webhooks            | find, search, create, update, delete |
+| Videos              | find, search                         |
+| Memberships         | search                               |
+| Roles               | search                               |
+
 ## Usage
 
-### Forms
+Create a fulcrum client with your API key.
 
-Get All Forms:
+```python
+from fulcrum import Fulcrum
+fulcrum = Fulcrum(key='super-secret-key')
+```
 
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
-    forms = fulcrum.form.all()
+Various methods are available for each of the resources. Check the table above for details. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://fulcrumapp.com/developers/api/) for examples of returned objects.
 
-All returns a dict containing forms and pagination info:
+### Find
 
-    {
-        'forms': [
-            {
-                'name': 'Denver Street Food',
-                'id': '5b656cd8-f3ef-43e9-8d22-84d015052778',
-                ...
-            }
-        ],
-        'total_count': 3,
-        'current_page': 1,
-        'total_pages': 1,
-        'per_page': 20000
+Finds a single resource. The single parameter is a resource id.
+
+```python
+form = fulcrum.forms.find('5b656cd8-f3ef-43e9-8d22-84d015052778')
+print(form['form']['name'])  # Denver Street Food
+```
+
+### Search
+
+Search for resources. The single parameter is `url_params` which should be passed as a dict, and will be properly url encoded. The `url_parameters` will vary depending on the resource, but [pagination parameters](http://fulcrumapp.com/developers/api/#pagination) are always accepted.
+
+```python
+records = fulcrum.records.search(url_params={'form_id': 'a1cb3ac7-146f-491a-a4a2-47737fb12074'})
+print(len(records['records']))  # 9
+print(records['records'][0]['id'])  # c90b0edf-0299-42df-bed4-524446d63f40
+```
+
+### Create
+
+Create an object. The single parameter is a dict representation of a JSON object that will be POSTed to the API. Check the [Fulcrum API Docs](http://fulcrumapp.com/developers/api/) for examples of resource objects.
+
+```python
+a_record = {
+    'record': {
+        'form_values': {
+            'cbaf': 'A field value'
+        },
+        'form_id': 'a1cb3ac7-146f-491a-a4a2-47737fb12074'
     }
+}
+record = fulcrum.records.create(a_record)
+print(record['record']['id'])  # e58e80a8-9376-4a31-8e31-3cba95af0b4b
+```
 
-Create a Form:
+### Update
 
-    form = {
-        'form': {
-            'created_at': '2013-12-17T23:11:01Z',
-            'record_count': 5,
-            'name': 'Denver Street Food',
-            'description': 'Food Carts and Trucks in Denver',
-            'elements': [
-                {
-                    'default_value': None,
-                    'data_name': 'name',
-                    'description': 'The name of that food joint',
-                    'label': 'Name',
-                    'type': 'TextField'
-                },
-            ]
-        }
+Update an object. Parameters are an id, and dict representation of the JSON object that will be updated.
+
+```python
+an_updated_record = {
+    'record': {
+        'form_values': {
+            'cbaf': 'An updated field value'
+        },
+        'form_id': 'a1cb3ac7-146f-491a-a4a2-47737fb12074'
     }
-    created = fulcrum.form.create(form)
+}
+record = fulcrum.records.update('e58e80a8-9376-4a31-8e31-3cba95af0b4b', an_updated_record)
+print(record['record']['form_values']['cbaf'])  # An updated field value
+```
 
-Get a Single Form:
+### Delete
 
-    form = fulcrum.form.find('5b656cd8-f3ef-43e9-8d22-84d015052778')
+Delete a resource. Delete returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no resource found).
 
-Find returns a dict containing a form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found).
-
-    {
-        'form': {
-            'name': 'Denver Street Food',
-            'description': 'Food Carts and Trucks in Denver',
-            'bounding_box': [39.573714899036, -105.016159263187, 39.75146857094, -104.992259675735],
-            'elements': [
-                {
-                    'data_name': 'name',
-                    'description': 'The name of that food joint',
-                    'label': 'Name',
-                    'key': '4c0e',
-                    'type': 'TextField',
-                    ...
-                }
-            ],
-            'id': '5b656cd8-f3ef-43e9-8d22-84d015052778'
-        }
-    }
-
-Delete a Form:
-
-    fulcrum.form.delete('5b656cd8-f3ef-43e9-8d22-84d015052778')
-
-Delete returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found).
-
-Update a Form:
-
-    form = fulcrum.form.find('0552ca09-c521-4e48-b46c-9114e866ce06')
-    form['form']['name'] = 'A better name for this form'
-    new_form = fulcrum.form.update('0552ca09-c521-4e48-b46c-9114e866ce06', form)
-
-Update returns a dict containing the updated form and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no form found).
-
-### Records
-
-Get All Records
-
-    from fulcrum import Fulcrum
-    fulcrum = Fulcrum(key='super-secret-key')
-    records = fulcrum.record.all()
-
-All returns a dict containing forms and pagination info. In this case we're returning records from all forms, probably not something you'd want to do.
-
-    {
-        'per_page': 20000,
-        'total_count': 16,
-        'current_page': 1,
-        'total_pages': 1,
-        'records': [
-            {
-                'latitude': 39.6554223960635,
-                'longitude': -105.000037243688,
-                'altitude': 1629.0,
-                'id': 'db3eff40-9b7b-4a37-baaa-c10891d1c2ec',
-                'form_id': '49fd15ed-b24b-42ea-a0d5-2293276ec27e',
-                'created_by': 'Jason Sanford',
-                'form_values': {
-                    '93d8': 'Englewood',
-                    '0e7b': {
-                        'choice_values': ['C', 'D'],
-                        'other_values': []
-                    }
-                }
-            },
-            ...
-        ]
-    }
-
-#### URL Parameters
-
-Set URL parameters defined in the [Fulcrum Docs](http://fulcrumapp.com/developers/api/records/#query-params) to filter data for more accurate results. Supported parameters are `form_id`, `bounding_box`, `updated_since`, `project_id`, `page`, `per_page`. Below are a few examples.
-
-Get records from a specific form:
-
-    records = fulcrum.record.all(params={'form_id': '5b656cd8-f3ef-43e9-8d22-84d015052778'})
-
-Get records within a bounding box:
-
-    params = {
-        'form_id': '5b656cd8-f3ef-43e9-8d22-84d015052778',
-        'bounding_box': '39.55729,-105.05414,39.58931,-104.98273'
-    }
-    records = fulcrum.record.all(params=params)
-
-Create a record:
-
-    record = {
-        'record': {
-            'latitude': 39.6554223960635,
-            'longitude': -105.000037243688,
-            'altitude': 1629.0,
-            'id': 'db3eff40-9b7b-4a37-baaa-c10891d1c2ec',
-            'form_id': '49fd15ed-b24b-42ea-a0d5-2293276ec27e',
-            'created_by': 'Jason Sanford',
-            'form_values': {
-                '93d8': 'Englewood',
-                '0e7b': {
-                    'choice_values': ['C', 'D'],
-                    'other_values': []
-                }
-            }
-        }
-    }
-    created_record = fulcrum.record.create(record)
-
-Get a specific record:
-
-    record = fulcrum.record.find('7465ddd4-3c8c-4c47-ac73-7963c076955a')
-
-Update the record:
-
-    record['record']['latitude'], record['record']['longitude'] = 0, 0
-    record['record']['form_id'] = '5b656cd8-f3ef-43e9-8d22-84d015052778'
-    fulcrum.record.update(record['record']['id'], record)
-
-Delete the record:
-
-    fulcrum.record.delete(record['record']['id'])
-
-### Webhooks
-
-Get all webhooks:
-
-    from fulcrum import Fulcrum
-    fulcrum_api = Fulcrum(key='super-secret-key')
-    webhooks = fulcrum_api.webhook.all()
-
-Returns a dict containing webhooks:
-
-    {
-        'webhooks': [
-            {
-                'name': 'My First Webhook',
-                'url': 'http://whatever.com/fulcrum_hook',
-                'created_at': '2013-12-31T16:57:30Z',
-                'updated_at': '2013-12-31T16:57:30Z',
-                'active': True,
-                'id': 'c78fcd07-ff6d-4b99-8b1e-c9fa1c08331a'
-            },
-            {
-                'name': 'My Second Webhook',
-                'url': 'http://expensive-domain.com/fulcrum_callback',
-                'created_at': '2013-12-31T16:56:59Z',
-                'updated_at': '2013-12-31T16:56:59Z',
-                'active': True,
-                'id': 'b4fb8408-694d-41a6-8ad3-cffe0354c277'
-            }
-        ]
-    }
-
-Get a specific webhook:
-
-    webhook = fulcrum_api.webhook.find('c78fcd07-ff6d-4b99-8b1e-c9fa1c08331a')
-
-Update a webhook:
-
-    webhook['webhook']['name'] = 'A Better Name'
-    webhook['webhook']['url'] = 'http://cats.com/lobster'
-    updated = fulcrum_api.webhook.update(webhook['webhook']['id'], webhook)
-
-Create a webhook:
-
-    webhook = {
-        'webhook': {
-            'name': 'Production Webhook',
-            'url': 'http://myapp.com/callback'
-        }
-    }
-    created = fulcrum_api.webhook.create(webhook)
-
-Delete a webhook:
-
-    fulcrum_api.webhook.delete(created['webhook']['id'])
+```python
+fulcrum.records.delete('e58e80a8-9376-4a31-8e31-3cba95af0b4b')  # Returns `None` (assuming the record is found and deleted)
+fulcrum.records.delete('a-bogus-resource-id')  # Raises `fulcrum.exceptions.NotFoundException`
+```
 
 ## Testing
 

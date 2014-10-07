@@ -16,8 +16,8 @@ class Createable(object):
 
 
 class Searchable(object):
-    def search(self, params=None):
-        api_resp = self.call('get', self.path, params=params)
+    def search(self, url_params=None):
+        api_resp = self.call('get', self.path, url_params=url_params)
         return api_resp
 
 
