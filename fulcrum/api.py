@@ -43,7 +43,9 @@ class BaseAPI(object):
         if resp.status_code in self.http_exception_map:
             raise self.http_exception_map[resp.status_code]
 
-        if method != 'delete':
+        if method == 'delete' or (method == 'put' and 'close' in path):
+            return
+        else:
             return resp.json()
 
 
@@ -62,8 +64,10 @@ class Webhooks(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable
 class Photos(BaseAPI, Findable, Searchable):
     path = 'photos'
 
+
 class Videos(BaseAPI, Findable, Searchable):
     path = 'videos'
+
 
 class Memberships(BaseAPI, Searchable):
     path = 'memberships'
@@ -72,11 +76,22 @@ class Memberships(BaseAPI, Searchable):
 class Roles(BaseAPI, Searchable):
     path = 'roles'
 
+
 class ChoiceLists(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'choice_lists'
+
 
 class ClassificationSets(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'classification_sets'
 
+
 class Projects(BaseAPI, Searchable):
     path = 'projects'
+
+
+class Changesets(BaseAPI, Findable, Createable, Searchable, Updateable):
+    path = 'changesets'
+
+    def close(self, id):
+        api_resp = api_resp = self.call('put', '{0}/{1}/close'.format(self.path, id))
+        return api_resp
