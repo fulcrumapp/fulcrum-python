@@ -1,4 +1,4 @@
-from .api import APIConfig, Forms, Records, Webhooks
+from .api import APIConfig, Forms, Records, Webhooks, Photos
 
 __version__ = '1.0.0'
 
@@ -9,3 +9,4 @@ class Fulcrum(object):
         self.forms = Forms(api_config=api_config)
         self.records = Records(api_config=api_config)
         self.webhooks = Webhooks(api_config=api_config)
+        self.photos = Photos(api_config=api_config)
