@@ -3,7 +3,7 @@ import httpretty
 from tests import FulcrumTestCase
 
 
-class ChoiceListTest(FulcrumTestCase):
+class ClassificationSetTest(FulcrumTestCase):
     @httpretty.activate
     def test_search(self):
         httpretty.register_uri(httpretty.GET, self.api_root + '/classification_sets',

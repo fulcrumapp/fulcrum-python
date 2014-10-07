@@ -75,3 +75,6 @@ class ChoiceLists(BaseAPI, Findable, Deleteable, Createable, Searchable, Updatea
 
 class ClassificationSets(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'classification_sets'
+
+class Projects(BaseAPI, Searchable):
+    path = 'projects'
