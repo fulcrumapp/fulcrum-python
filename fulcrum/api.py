@@ -72,3 +72,6 @@ class Roles(BaseAPI, Searchable):
 
 class ChoiceLists(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'choice_lists'
+
+class ClassificationSets(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
+    path = 'classification_sets'

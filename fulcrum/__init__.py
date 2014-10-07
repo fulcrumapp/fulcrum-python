@@ -1,4 +1,5 @@
-from .api import APIConfig, Forms, Records, Webhooks, Photos, Memberships, Roles, ChoiceLists
+from .api import (APIConfig, Forms, Records, Webhooks, Photos, Memberships,
+                  Roles, ChoiceLists, ClassificationSets)
 
 __version__ = '1.0.0'
 
@@ -13,3 +14,4 @@ class Fulcrum(object):
         self.memberships = Memberships(api_config=api_config)
         self.roles = Roles(api_config=api_config)
         self.choice_lists = ChoiceLists(api_config=api_config)
+        self.classification_sets = ClassificationSets(api_config=api_config)
