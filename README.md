@@ -56,7 +56,7 @@ print(form['form']['name'])  # Denver Street Food
 
 ### Search
 
-Search for resources. The single parameter is `url_params` which should be passed as a dict, and will be properly url encoded. The `url_parameters` will vary depending on the resource, but [pagination parameters](http://fulcrumapp.com/developers/api/#pagination) are always accepted.
+Search for resources. The single parameter is `url_params` which should be passed as a dict, and will be properly url encoded. These will vary depending on the resource, but [pagination parameters](http://fulcrumapp.com/developers/api/#pagination) are always accepted.
 
 ```python
 records = fulcrum.records.search(url_params={'form_id': 'a1cb3ac7-146f-491a-a4a2-47737fb12074'})
@@ -103,8 +103,8 @@ print(record['record']['form_values']['cbaf'])  # An updated field value
 Delete a resource. Delete returns `None` on success and raises `fulcrum.exceptions.NotFoundException` if the API returns a 404 (no resource found).
 
 ```python
-fulcrum.records.delete('e58e80a8-9376-4a31-8e31-3cba95af0b4b')  # Returns `None` (assuming the record is found and deleted)
-fulcrum.records.delete('a-bogus-resource-id')  # Raises `fulcrum.exceptions.NotFoundException`
+fulcrum.records.delete('e58e80a8-9376-4a31-8e31-3cba95af0b4b')  # Returns None (assuming the record is found and deleted)
+fulcrum.records.delete('a-bogus-resource-id')  # Raises fulcrum.exceptions.NotFoundException
 ```
 
 ## Testing
