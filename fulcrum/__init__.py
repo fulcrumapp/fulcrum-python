@@ -1,8 +1,10 @@
-from .api import (APIConfig, Forms, Records, Webhooks, Photos, Memberships,
-                  Roles, ChoiceLists, ClassificationSets, Projects, Videos,
-                  Changesets)
+from fulcrum.api import APIConfig
+from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
+                                   Memberships, Roles, ChoiceLists,
+                                   ClassificationSets, Projects, Videos,
+                                   Changesets)
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 
 class Fulcrum(object):
