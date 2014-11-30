@@ -51,3 +51,7 @@ class Changesets(BaseAPI, Findable, Createable, Searchable, Updateable):
     def close(self, id):
         api_resp = api_resp = self.call('put', '{0}/{1}/close'.format(self.path, id))
         return api_resp
+
+
+class ChildRecords(BaseAPI, Searchable):
+    path = 'child_records'
