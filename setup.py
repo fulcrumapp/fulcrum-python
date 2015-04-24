@@ -7,7 +7,7 @@ requires = ['requests>=2.1.0']
 
 setup(
     name='fulcrum',
-    version='1.4.1',
+    version='1.4.2',
     description='A python wrapper for the Fulcrum API',
     author='Jason Sanford',
     author_email='jasonsanford@gmail.com',
