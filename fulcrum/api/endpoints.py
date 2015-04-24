@@ -41,7 +41,7 @@ class ClassificationSets(BaseAPI, Findable, Deleteable, Createable, Searchable, 
     path = 'classification_sets'
 
 
-class Projects(BaseAPI, Searchable):
+class Projects(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'projects'
 
 
