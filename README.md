@@ -1,6 +1,6 @@
 # fulcrum-python
 
-[![Build Status](https://api.travis-ci.org/fulcrumapp/fulcrum-python.png)](https://travis-ci.org/fulcrumapp/fulcrum-python)&nbsp;[![Coverage Status](https://coveralls.io/repos/fulcrumapp/fulcrum-python/badge.png?branch=master)](https://coveralls.io/r/fulcrumapp/fulcrum-python?branch=master)
+[![Build Status](https://api.travis-ci.org/fulcrumapp/fulcrum-python.png)](https://travis-ci.org/fulcrumapp/fulcrum-python)&nbsp;![PyPI version](https://img.shields.io/pypi/v/fulcrum.svg)
 
 A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
 
