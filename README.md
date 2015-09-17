@@ -107,6 +107,56 @@ fulcrum.records.delete('e58e80a8-9376-4a31-8e31-3cba95af0b4b')  # Returns None (
 fulcrum.records.delete('a-bogus-resource-id')  # Raises fulcrum.exceptions.NotFoundException
 ```
 
+## An Example
+
+Below is an example of looping through items in a csv file, finding the fulcrum record via its id, and updating the record with new values for a couple of fields.
+
+```python
+import csv
+
+from fulcrum import Fulcrum
+from fulcrum.exceptions import NotFoundException
+
+api_key = 'your_api_key'
+fulcrum = Fulcrum(key=api_key)
+record_updates = csv.reader(open('record_updates.csv'), delimiter=',')
+
+price_field_key = '9d69'
+quantity_field_key = '1299'
+
+"""
+Assuming your csv file looks something like
+
+record_id,price,quantity
+abc-123,34.58,3
+def-987,27.50,2
+"""
+
+# Skip the file header in csv (record_id,price,quantity)
+next(record_updates, None)
+
+# Loop through rows in csv
+for row in record_updates:
+    record_id = row[0]
+    price = row[1]
+    quantity = row[2]
+
+    # Try to fetch an existing record, but continue looping if not found
+    try:
+        data = fulcrum.records.find(record_id)
+    except NotFoundException:
+        print('No record found with id ' + record_id)
+        continue
+
+    # Update fields with csv values
+    data['record']['form_values'][price_field_key] = price
+    data['record']['form_values'][quantity_field_key] = quantity
+
+    # Send updates back to Fulcrum
+    updated_record = fulcrum.records.update(record_id, data)
+    print('record ' + record_id + ' successfully updated!')
+```
+
 ## Testing
 
 You'll need some additional things to run tests, so:
