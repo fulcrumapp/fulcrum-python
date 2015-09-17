@@ -119,7 +119,7 @@ Run the tests:
 
 You can get coverage too.
 
-    nosetests --with-coverage
+    nosetests --with-coverage --cover-package fulcrum
 
 View coverage.
 
