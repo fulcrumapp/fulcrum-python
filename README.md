@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/fulcrumapp/fulcrum-python.png)](https://travis-ci.org/fulcrumapp/fulcrum-python)&nbsp;[![PyPI version](https://img.shields.io/pypi/v/fulcrum.svg)](https://pypi.python.org/pypi/fulcrum/)
 
-A library for working with [Fulcrum API](http://fulcrumapp.com/developers/api/)
+A library for working with [Fulcrum API](http://www.fulcrumapp.com/developers/api/)
 
 ## Installation
 
@@ -43,7 +43,7 @@ from fulcrum import Fulcrum
 fulcrum = Fulcrum(key='super-secret-key')
 ```
 
-Various methods are available for each of the resources. Check the table above for details. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://fulcrumapp.com/developers/api/) for examples of returned objects.
+Various methods are available for each of the resources. Check the table above for details. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
 
 ### Find
 
@@ -66,7 +66,7 @@ print(records['records'][0]['id'])  # c90b0edf-0299-42df-bed4-524446d63f40
 
 ### Create
 
-Create an object. The single parameter is a dict representation of a JSON object that will be POSTed to the API. Check the [Fulcrum API Docs](http://fulcrumapp.com/developers/api/) for examples of resource objects.
+Create an object. The single parameter is a dict representation of a JSON object that will be POSTed to the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of resource objects.
 
 ```python
 a_record = {
