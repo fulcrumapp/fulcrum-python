@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-requires = ['requests>=2.1.0']
+requires = ['requests>=2.11.0']
 
 setup(
     name='fulcrum',
