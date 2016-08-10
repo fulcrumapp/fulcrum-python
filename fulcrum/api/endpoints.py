@@ -23,8 +23,10 @@ class Photos(BaseAPI, Findable, Searchable, Downloadable):
     dl_sizes = ['thumbnail', 'large']
 
 
-class Signatures(BaseAPI, Findable, Searchable):
+class Signatures(BaseAPI, Findable, Searchable, Downloadable):
     path = 'signatures'
+    dl_ext = 'png'
+    dl_sizes = ['thumbnail']
 
 
 class Videos(BaseAPI, Findable, Searchable, Downloadable):

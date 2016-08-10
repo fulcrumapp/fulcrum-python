@@ -25,7 +25,7 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 | Forms               | find, search, create, update, delete                  |
 | Records             | find, search, create, update, delete                  |
 | Photos              | find, search, get_original, get_size                  |
-| Signatures          | find, search                         |
+| Signatures          | find, search, get_original, get_size                  |
 | Projects            | find, search, create, update, delete                  |
 | Changesets          | find, search, create, update, close                   |
 | Choice Lists        | find, search, create, update, delete                  |
