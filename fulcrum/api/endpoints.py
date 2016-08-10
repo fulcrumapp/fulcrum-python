@@ -21,6 +21,10 @@ class Photos(BaseAPI, Findable, Searchable):
     path = 'photos'
 
 
+class Signatures(BaseAPI, Findable, Searchable):
+    path = 'signatures'
+
+
 class Videos(BaseAPI, Findable, Searchable):
     path = 'videos'
 
