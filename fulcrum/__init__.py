@@ -1,6 +1,6 @@
 from fulcrum.api import APIConfig
 from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
-                                   Memberships, Roles, ChoiceLists,
+                                   Memberships, Roles, ChoiceLists, Signatures,
                                    ClassificationSets, Projects, Videos,
                                    Changesets, ChildRecords)
 
@@ -14,6 +14,7 @@ class Fulcrum(object):
         self.records = Records(api_config=api_config)
         self.webhooks = Webhooks(api_config=api_config)
         self.photos = Photos(api_config=api_config)
+        self.signatures = Signatures(api_config=api_config)
         self.memberships = Memberships(api_config=api_config)
         self.roles = Roles(api_config=api_config)
         self.choice_lists = ChoiceLists(api_config=api_config)
