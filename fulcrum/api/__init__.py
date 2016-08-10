@@ -21,7 +21,7 @@ class BaseAPI(object):
     def __init__(self, api_config):
         self.api_config = api_config
 
-    def call(self, method, path, data=None, extra_headers=None, url_params=None):
+    def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True):
         full_path = self.api_config.api_root + path
         headers = {'X-ApiToken': self.api_config.key}
         if extra_headers is not None:
@@ -43,5 +43,7 @@ class BaseAPI(object):
         if method == 'delete' or (method == 'put' and 'close' in path):
             # No body is returned for delete and close methods.
             return
-        else:
+        elif json_content:
             return resp.json()
+        else:
+            return resp.content

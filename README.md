@@ -20,20 +20,20 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 
 ## Supported Resources and Methods
 
-| Resource            | Methods                              |
-|---------------------|--------------------------------------|
-| Forms               | find, search, create, update, delete |
-| Records             | find, search, create, update, delete |
-| Photos              | find, search                         |
+| Resource            | Methods                                               |
+|---------------------|-------------------------------------------------------|
+| Forms               | find, search, create, update, delete                  |
+| Records             | find, search, create, update, delete                  |
+| Photos              | find, search, get_original, get_size                  |
 | Signatures          | find, search                         |
-| Projects            | find, search, create, update, delete |
-| Changesets          | find, search, create, update, close  |
-| Choice Lists        | find, search, create, update, delete |
-| Classification Sets | find, search, create, update, delete |
-| Webhooks            | find, search, create, update, delete |
-| Videos              | find, search                         |
-| Memberships         | search                               |
-| Roles               | search                               |
+| Projects            | find, search, create, update, delete                  |
+| Changesets          | find, search, create, update, close                   |
+| Choice Lists        | find, search, create, update, delete                  |
+| Classification Sets | find, search, create, update, delete                  |
+| Webhooks            | find, search, create, update, delete                  |
+| Videos              | find, search, get_original, get_size                  |
+| Memberships         | search                                                |
+| Roles               | search                                                |
 
 ## Usage
 
