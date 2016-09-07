@@ -12,3 +12,7 @@ class UnauthorizedException(Exception):
 
 class InternalServerErrorException(Exception):
     """There was an error while processing your request."""
+
+
+class RateLimitExceededException(Exception):
+    """Exceeded API token's rate limit of 5 thousand requests an hour."""
