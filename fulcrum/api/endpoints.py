@@ -35,6 +35,10 @@ class Videos(BaseAPI, Findable, Searchable, Downloadable):
     dl_sizes = ['small', 'medium']
 
 
+class Audio(BaseAPI, Findable, Searchable):
+    path = 'audio'
+
+
 class Memberships(BaseAPI, Searchable):
     path = 'memberships'
 

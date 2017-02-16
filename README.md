@@ -32,6 +32,7 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 | Classification Sets | find, search, create, update, delete                  |
 | Webhooks            | find, search, create, update, delete                  |
 | Videos              | find, search, get_original, get_size                  |
+| Audio               | find, search                                          |
 | Memberships         | search                                                |
 | Roles               | search                                                |
 
