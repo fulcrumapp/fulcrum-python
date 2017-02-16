@@ -1,4 +1,4 @@
-from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Downloadable
+from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Media
 from . import BaseAPI
 
 
@@ -17,26 +17,28 @@ class Webhooks(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable
     path = 'webhooks'
 
 
-class Photos(BaseAPI, Findable, Searchable, Downloadable):
+class Photos(BaseAPI, Findable, Searchable, Media):
     path = 'photos'
-    dl_ext = 'jpg'
-    dl_sizes = ['thumbnail', 'large']
+    ext = 'jpg'
+    sizes = ['thumbnail', 'large']
 
 
-class Signatures(BaseAPI, Findable, Searchable, Downloadable):
+class Signatures(BaseAPI, Findable, Searchable, Media):
     path = 'signatures'
-    dl_ext = 'png'
-    dl_sizes = ['thumbnail']
+    ext = 'png'
+    sizes = ['thumbnail', 'large']
 
 
-class Videos(BaseAPI, Findable, Searchable, Downloadable):
+class Videos(BaseAPI, Findable, Searchable, Media):
     path = 'videos'
-    dl_ext = 'mp4'
-    dl_sizes = ['small', 'medium']
+    ext = 'mp4'
+    sizes = ['small', 'medium']
 
 
-class Audio(BaseAPI, Findable, Searchable):
+class Audio(BaseAPI, Findable, Searchable, Media):
     path = 'audio'
+    ext = 'mp4'
+    sizes = []
 
 
 class Memberships(BaseAPI, Searchable):

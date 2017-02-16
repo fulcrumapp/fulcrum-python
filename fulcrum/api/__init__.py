@@ -23,10 +23,11 @@ class BaseAPI(object):
 
     def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True):
         full_path = self.api_config.api_root + path
-        headers = {
-            'X-ApiToken': self.api_config.key,
-            'Accept': 'application/json'
-        }
+        headers = {'X-ApiToken': self.api_config.key}
+
+        if json_content:
+            headers.update({'Accept': 'application/json'})
+
         if extra_headers is not None:
             headers.update(extra_headers)
 
