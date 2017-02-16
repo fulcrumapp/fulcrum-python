@@ -20,21 +20,21 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 
 ## Supported Resources and Methods
 
-| Resource            | Methods                                               |
-|---------------------|-------------------------------------------------------|
-| Forms               | find, search, create, update, delete                  |
-| Records             | find, search, create, update, delete                  |
-| Photos              | find, search, get_original, get_size                  |
-| Signatures          | find, search, get_original, get_size                  |
-| Projects            | find, search, create, update, delete                  |
-| Changesets          | find, search, create, update, close                   |
-| Choice Lists        | find, search, create, update, delete                  |
-| Classification Sets | find, search, create, update, delete                  |
-| Webhooks            | find, search, create, update, delete                  |
-| Videos              | find, search, get_original, get_size                  |
-| Audio               | find, search                                          |
-| Memberships         | search                                                |
-| Roles               | search                                                |
+| Resource            | Methods                              |
+|---------------------|--------------------------------------|
+| Forms               | find, search, create, update, delete |
+| Records             | find, search, create, update, delete |
+| Photos              | find, search, media                  |
+| Signatures          | find, search, media                  |
+| Projects            | find, search, create, update, delete |
+| Changesets          | find, search, create, update, close  |
+| Choice Lists        | find, search, create, update, delete |
+| Classification Sets | find, search, create, update, delete |
+| Webhooks            | find, search, create, update, delete |
+| Videos              | find, search, media                  |
+| Audio               | find, search, media                  |
+| Memberships         | search                               |
+| Roles               | search                               |
 
 ## Usage
 
