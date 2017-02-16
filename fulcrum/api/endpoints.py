@@ -29,6 +29,10 @@ class Videos(BaseAPI, Findable, Searchable):
     path = 'videos'
 
 
+class Audio(BaseAPI, Findable, Searchable):
+    path = 'audio'
+
+
 class Memberships(BaseAPI, Searchable):
     path = 'memberships'
 
