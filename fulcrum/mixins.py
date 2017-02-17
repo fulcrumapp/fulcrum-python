@@ -38,3 +38,21 @@ class Media(object):
 
         api_resp = self.call('get', path, json_content=False)
         return api_resp
+
+
+class Track(object):
+    track_formats = {
+        'json': 'json',
+        'geojson': 'geojson',
+        'gpx': 'gpx',
+        'kml': 'kml',
+        'geojson_points': 'geojson?type=points',
+    }
+
+    def track(self, id, format='json'):
+        if not format in self.track_formats.keys():
+            raise ValueError('Format {} not supported'.format(size))
+        path = '{}/{}/track.{}'.format(self.path, id, self.track_formats[format])
+
+        api_resp = self.call('get', path, json_content=False)
+        return api_resp

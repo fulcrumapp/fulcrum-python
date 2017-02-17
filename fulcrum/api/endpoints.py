@@ -1,4 +1,4 @@
-from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Media
+from fulcrum.mixins import Findable, Deleteable, Createable, Searchable, Updateable, Media, Track
 from . import BaseAPI
 
 
@@ -29,13 +29,13 @@ class Signatures(BaseAPI, Findable, Searchable, Media):
     sizes = ['thumbnail', 'large']
 
 
-class Videos(BaseAPI, Findable, Searchable, Media):
+class Videos(BaseAPI, Findable, Searchable, Media, Track):
     path = 'videos'
     ext = 'mp4'
     sizes = ['small', 'medium']
 
 
-class Audio(BaseAPI, Findable, Searchable, Media):
+class Audio(BaseAPI, Findable, Searchable, Media, Track):
     path = 'audio'
     ext = 'mp4'
     sizes = []
