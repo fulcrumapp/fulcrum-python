@@ -47,6 +47,38 @@ fulcrum = Fulcrum(key='super-secret-key')
 
 Various methods are available for each of the resources. Check the table above for details. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
 
+### Forms
+
+#### Find
+
+```python
+form = fulcrum.forms.find(form_id)
+```
+
+#### Search
+
+```python
+forms = fulcrum.forms.search(url_params)
+```
+
+#### Create
+
+```python
+form = fulcrum.forms.create(form_dict)
+```
+
+#### Update
+
+```python
+form = fulcrum.forms.update(form_dict)
+```
+
+#### Delete
+
+```python
+fulcrum.records.delete(form_id)
+```
+
 ### Find
 
 Finds a single resource. The single parameter is a resource id.
@@ -108,6 +140,18 @@ Delete a resource. Delete returns `None` on success and raises `fulcrum.exceptio
 fulcrum.records.delete('e58e80a8-9376-4a31-8e31-3cba95af0b4b')  # Returns None (assuming the record is found and deleted)
 fulcrum.records.delete('a-bogus-resource-id')  # Raises fulcrum.exceptions.NotFoundException
 ```
+
+### Media Method
+
+The Fulcrum API endpoints that support media download have an extra `media`
+method that will fetch media of a certain size (original, small, medium, large,
+thumbnail)
+
+### Track Method
+
+The audio and video endpoints have an extra `track` method that will fetch a
+track associated with an audio recording in multiple formats: `json` (default),
+`geojson`, `gpx`, and `kml`.
 
 ## An Example
 
