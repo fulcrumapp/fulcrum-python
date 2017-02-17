@@ -31,8 +31,8 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 | Choice Lists        | find, search, create, update, delete |
 | Classification Sets | find, search, create, update, delete |
 | Webhooks            | find, search, create, update, delete |
-| Videos              | find, search, media                  |
-| Audio               | find, search, media                  |
+| Videos              | find, search, media, track           |
+| Audio               | find, search, media, track           |
 | Memberships         | search                               |
 | Roles               | search                               |
 
@@ -45,31 +45,137 @@ from fulcrum import Fulcrum
 fulcrum = Fulcrum(key='super-secret-key')
 ```
 
-Various methods are available for each of the resources. Check the table above for details. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
+Various methods are available for each of the resources. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
 
-### Forms
+## Forms
 
-#### fulcrum.forms.find(id)
+### fulcrum.forms.find(id)
 
-#### fulcrum.forms.search(url_params)
+### fulcrum.forms.search(url_params)
 
-#### fulcrum.forms.create(form)
+### fulcrum.forms.create(form)
 
-#### fulcrum.forms.update(id, form)
+### fulcrum.forms.update(id, form)
 
-#### fulcrum.forms.delete(id)
+### fulcrum.forms.delete(id)
 
-### Records
+## Records
 
-#### fulcrum.records.find(id)
+### fulcrum.records.find(id)
 
-#### fulcrum.records.search(url_params)
+### fulcrum.records.search(url_params)
 
-#### fulcrum.records.create(record)
+### fulcrum.records.create(record)
 
-#### fulcrum.records.update(id, record)
+### fulcrum.records.update(id, record)
 
-#### fulcrum.records.delete(id)
+### fulcrum.records.delete(id)
+
+## Photos
+
+### fulcrum.photos.find(id)
+
+### fulcrum.photos.search(url_params)
+
+### fulcrum.photos.media(id, size)
+
+## Signatures
+
+### fulcrum.signatures.find(id)
+
+### fulcrum.signatures.search(url_params)
+
+### fulcrum.signatures.media(id, size)
+
+## Videos
+
+### fulcrum.videos.find(id)
+
+### fulcrum.videos.search(url_params)
+
+### fulcrum.videos.media(id, size)
+
+### fulcrum.videos.track(id, format)
+
+## Audio
+
+### fulcrum.audio.find(id)
+
+### fulcrum.audio.search(url_params)
+
+### fulcrum.audio.media(id, size)
+
+### fulcrum.audio.track(id, format)
+
+## Projects
+
+### fulcrum.projects.find(id)
+
+### fulcrum.projects.search(url_params)
+
+### fulcrum.projects.create(form)
+
+### fulcrum.projects.update(id, form)
+
+### fulcrum.projects.delete(id)
+
+## Choice Lists
+
+### fulcrum.choice_lists.find(id)
+
+### fulcrum.choice_lists.search(url_params)
+
+### fulcrum.choice_lists.create(form)
+
+### fulcrum.choice_lists.update(id, form)
+
+### fulcrum.choice_lists.delete(id)
+
+## Classification Sets
+
+### fulcrum.classification_sets.find(id)
+
+### fulcrum.classification_sets.search(url_params)
+
+### fulcrum.classification_sets.create(form)
+
+### fulcrum.classification_sets.update(id, form)
+
+### fulcrum.classification_sets.delete(id)
+
+## Webhooks
+
+### fulcrum.webhooks.find(id)
+
+### fulcrum.webhooks.search(url_params)
+
+### fulcrum.webhooks.create(form)
+
+### fulcrum.webhooks.update(id, form)
+
+### fulcrum.webhooks.delete(id)
+
+## Changesets
+
+### fulcrum.changesets.find(id)
+
+### fulcrum.changesets.search(url_params)
+
+### fulcrum.changesets.create(form)
+
+### fulcrum.changesets.update(id, form)
+
+### fulcrum.changesets.close(id)
+
+## Memberships
+
+### fulcrum.memberships.search(url_params)
+
+## Roles
+
+### fulcrum.roles.search(url_params)
+
+## Common Methods
 
 ### Find
 
