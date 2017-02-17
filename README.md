@@ -242,16 +242,93 @@ fulcrum.records.delete('a-bogus-resource-id')  # Raises fulcrum.exceptions.NotFo
 ### Media Method
 
 The Fulcrum API endpoints that support media download have an extra `media`
-method that will fetch media of a certain size (original, small, medium, large,
-thumbnail)
+method that will fetch the raw media.
+
+The `size` options are:
+
+| Resource            | Sizes                                |
+|---------------------|--------------------------------------|
+| Photos              | 'original', 'thumbnail', and 'large' |
+| Signatures          | 'original', 'thumbnail', and 'large' |
+| Videos              | 'original', 'small', and 'medium'    |
+| Audio               | 'original'                           |
+
+```python
+photo = fulcrum.photos.media(id, size='original')
+```
+
+Skip the `size` parameter and get the default, original photo. Save it to disk.
+
+```python
+photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b')
+with open('photo_original.jpg', 'w') as f:
+    f.write(photo)
+```
+
+Get the thumbnail instead.
+
+```python
+photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b', 'thumbnail')
+with open('photo_thumb.jpg', 'w') as f:
+    f.write(photo)
+```
+
+Do the same with videos.
+
+```python
+video = fulcrum.videos.media('45f85af9-65d1-4356-b8d1-6e713e926c22', 'small')
+with open('video_small.mp4', 'w') as f:
+    f.write(video)
+```
 
 ### Track Method
 
 The audio and video endpoints have an extra `track` method that will fetch a
-track associated with an audio recording in multiple formats: `json` (default),
+track associated with the recording in multiple formats: `json` (default),
 `geojson`, `gpx`, and `kml`.
 
-## An Example
+Get the default json track output for an audio recording.
+
+```python
+track = fulcrum.audio.track('f0eb217d-3d4b-4ade-81b7-bac63788f396')
+with open('track.json', 'w') as f:
+    f.write(track)
+```
+
+Get a KML representation of a video track.
+
+```python
+track = fulcrum.videos.track('45f85af9-65d1-4356-b8d1-6e713e926c22', 'kml')
+with open('track.kml', 'w') as f:
+    f.write(track)
+```
+
+## Examples
+
+### Downloading Videos for a Form
+
+Below is an example of downloading the first 3 videos for a form. You could
+change the code below to download all videos for a form if needed.
+
+```python
+from fulcrum import Fulcrum
+
+api_key = 'your_api_key'
+
+fulcrum = Fulcrum(key=api_key)
+
+videos = fulcrum.videos.search({'page': 1, 'per_page': 3, 'form_id': '4a3f0a6d-c1d3-4805-9aab-7cdd39d58e5f'})
+
+for video in videos['videos']:
+    id = video['access_key']
+
+    media = fulcrum.videos.media(id, 'small')
+
+    with open('{}_small.mp4'.format(id), 'w') as f:
+        f.write(media)
+```
+
+### Updating Records via CSV File
 
 Below is an example of looping through items in a csv file, finding the fulcrum record via its id, and updating the record with new values for a couple of fields.
 
