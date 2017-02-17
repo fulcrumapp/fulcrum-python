@@ -4,7 +4,7 @@ from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    ClassificationSets, Projects, Videos, Audio,
                                    Changesets, ChildRecords)
 
-__version__ = '1.4.3'
+__version__ = '1.6.0'
 
 
 class Fulcrum(object):
