@@ -24,15 +24,15 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 |---------------------|--------------------------------------|
 | Forms               | find, search, create, update, delete |
 | Records             | find, search, create, update, delete |
-| Photos              | find, search                         |
-| Signatures          | find, search                         |
+| Photos              | find, search, media                  |
+| Signatures          | find, search, media                  |
 | Projects            | find, search, create, update, delete |
 | Changesets          | find, search, create, update, close  |
 | Choice Lists        | find, search, create, update, delete |
 | Classification Sets | find, search, create, update, delete |
 | Webhooks            | find, search, create, update, delete |
-| Videos              | find, search                         |
-| Audio               | find, search                         |
+| Videos              | find, search, media, track           |
+| Audio               | find, search, media, track           |
 | Memberships         | search                               |
 | Roles               | search                               |
 
@@ -45,7 +45,137 @@ from fulcrum import Fulcrum
 fulcrum = Fulcrum(key='super-secret-key')
 ```
 
-Various methods are available for each of the resources. Check the table above for details. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
+Various methods are available for each of the resources. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
+
+## Forms
+
+### fulcrum.forms.find(id)
+
+### fulcrum.forms.search(url_params)
+
+### fulcrum.forms.create(form)
+
+### fulcrum.forms.update(id, form)
+
+### fulcrum.forms.delete(id)
+
+## Records
+
+### fulcrum.records.find(id)
+
+### fulcrum.records.search(url_params)
+
+### fulcrum.records.create(record)
+
+### fulcrum.records.update(id, record)
+
+### fulcrum.records.delete(id)
+
+## Photos
+
+### fulcrum.photos.find(id)
+
+### fulcrum.photos.search(url_params)
+
+### fulcrum.photos.media(id, size)
+
+## Signatures
+
+### fulcrum.signatures.find(id)
+
+### fulcrum.signatures.search(url_params)
+
+### fulcrum.signatures.media(id, size)
+
+## Videos
+
+### fulcrum.videos.find(id)
+
+### fulcrum.videos.search(url_params)
+
+### fulcrum.videos.media(id, size)
+
+### fulcrum.videos.track(id, format)
+
+## Audio
+
+### fulcrum.audio.find(id)
+
+### fulcrum.audio.search(url_params)
+
+### fulcrum.audio.media(id, size)
+
+### fulcrum.audio.track(id, format)
+
+## Projects
+
+### fulcrum.projects.find(id)
+
+### fulcrum.projects.search(url_params)
+
+### fulcrum.projects.create(form)
+
+### fulcrum.projects.update(id, form)
+
+### fulcrum.projects.delete(id)
+
+## Choice Lists
+
+### fulcrum.choice_lists.find(id)
+
+### fulcrum.choice_lists.search(url_params)
+
+### fulcrum.choice_lists.create(form)
+
+### fulcrum.choice_lists.update(id, form)
+
+### fulcrum.choice_lists.delete(id)
+
+## Classification Sets
+
+### fulcrum.classification_sets.find(id)
+
+### fulcrum.classification_sets.search(url_params)
+
+### fulcrum.classification_sets.create(form)
+
+### fulcrum.classification_sets.update(id, form)
+
+### fulcrum.classification_sets.delete(id)
+
+## Webhooks
+
+### fulcrum.webhooks.find(id)
+
+### fulcrum.webhooks.search(url_params)
+
+### fulcrum.webhooks.create(form)
+
+### fulcrum.webhooks.update(id, form)
+
+### fulcrum.webhooks.delete(id)
+
+## Changesets
+
+### fulcrum.changesets.find(id)
+
+### fulcrum.changesets.search(url_params)
+
+### fulcrum.changesets.create(form)
+
+### fulcrum.changesets.update(id, form)
+
+### fulcrum.changesets.close(id)
+
+## Memberships
+
+### fulcrum.memberships.search(url_params)
+
+## Roles
+
+### fulcrum.roles.search(url_params)
+
+## Common Methods
 
 ### Find
 
@@ -109,7 +239,101 @@ fulcrum.records.delete('e58e80a8-9376-4a31-8e31-3cba95af0b4b')  # Returns None (
 fulcrum.records.delete('a-bogus-resource-id')  # Raises fulcrum.exceptions.NotFoundException
 ```
 
-## An Example
+### Media Method
+
+The Fulcrum API endpoints that support media download have an extra `media`
+method that will fetch the raw media.
+
+The `size` options are:
+
+| Resource            | Sizes                                |
+|---------------------|--------------------------------------|
+| Photos              | 'original', 'thumbnail', and 'large' |
+| Signatures          | 'original', 'thumbnail', and 'large' |
+| Videos              | 'original', 'small', and 'medium'    |
+| Audio               | 'original'                           |
+
+```python
+photo = fulcrum.photos.media(id, size='original')
+```
+
+Skip the `size` parameter and get the default, original photo. Save it to disk.
+
+```python
+photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b')
+with open('photo_original.jpg', 'w') as f:
+    f.write(photo)
+```
+
+Get the thumbnail instead.
+
+```python
+photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b', 'thumbnail')
+with open('photo_thumb.jpg', 'w') as f:
+    f.write(photo)
+```
+
+Do the same with videos.
+
+```python
+video = fulcrum.videos.media('45f85af9-65d1-4356-b8d1-6e713e926c22', 'small')
+with open('video_small.mp4', 'w') as f:
+    f.write(video)
+```
+
+### Track Method
+
+The audio and video endpoints have an extra `track` method that will fetch a
+track associated with the recording in multiple formats: `json` (default),
+`geojson`, `gpx`, and `kml`.
+
+Get the default json track output for an audio recording.
+
+```python
+track = fulcrum.audio.track('f0eb217d-3d4b-4ade-81b7-bac63788f396')
+with open('track.json', 'w') as f:
+    f.write(track)
+```
+
+Get a KML representation of a video track.
+
+```python
+track = fulcrum.videos.track('45f85af9-65d1-4356-b8d1-6e713e926c22', 'kml')
+with open('track.kml', 'w') as f:
+    f.write(track)
+```
+
+## Examples
+
+### Downloading Videos for a Form
+
+Below is an example of downloading the first 3 videos and tracks for a form. You
+could change the code below to download all videos and tracks for a form if
+needed.
+
+```python
+from fulcrum import Fulcrum
+
+api_key = 'your_api_key'
+
+fulcrum = Fulcrum(key=api_key)
+
+videos = fulcrum.videos.search({'page': 1, 'per_page': 3, 'form_id': '4a3f0a6d-c1d3-4805-9aab-7cdd39d58e5f'})
+
+for video in videos['videos']:
+    id = video['access_key']
+
+    media = fulcrum.videos.media(id, 'small')
+    track = fulcrum.videos.track(id, 'geojson')
+
+    with open('{}_small.mp4'.format(id), 'w') as f:
+        f.write(media)
+
+    with open('{}.geojson'.format(id), 'w') as f:
+          f.write(track)
+```
+
+### Updating Records via CSV File
 
 Below is an example of looping through items in a csv file, finding the fulcrum record via its id, and updating the record with new values for a couple of fields.
 

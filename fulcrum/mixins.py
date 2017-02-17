@@ -25,3 +25,34 @@ class Updateable(object):
     def update(self, id, obj):
         api_resp = self.call('put', '{0}/{1}'.format(self.path, id), data=obj, extra_headers={'Content-Type': 'application/json'})
         return api_resp
+
+
+class Media(object):
+    def media(self, id, size='original'):
+        if size == 'original':
+            path = '{}/{}.{}'.format(self.path, id, self.ext)
+        else:
+            if not size in self.sizes:
+                raise ValueError('Size {} not supported'.format(size))
+            path = '{}/{}/{}.{}'.format(self.path, id, size, self.ext)
+
+        api_resp = self.call('get', path, json_content=False)
+        return api_resp
+
+
+class Track(object):
+    track_formats = {
+        'json': 'json',
+        'geojson': 'geojson',
+        'gpx': 'gpx',
+        'kml': 'kml',
+        'geojson_points': 'geojson?type=points',
+    }
+
+    def track(self, id, format='json'):
+        if not format in self.track_formats.keys():
+            raise ValueError('Format {} not supported'.format(size))
+        path = '{}/{}/track.{}'.format(self.path, id, self.track_formats[format])
+
+        api_resp = self.call('get', path, json_content=False)
+        return api_resp
