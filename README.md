@@ -307,8 +307,9 @@ with open('track.kml', 'w') as f:
 
 ### Downloading Videos for a Form
 
-Below is an example of downloading the first 3 videos for a form. You could
-change the code below to download all videos for a form if needed.
+Below is an example of downloading the first 3 videos and tracks for a form. You
+could change the code below to download all videos and tracks for a form if
+needed.
 
 ```python
 from fulcrum import Fulcrum
@@ -323,9 +324,13 @@ for video in videos['videos']:
     id = video['access_key']
 
     media = fulcrum.videos.media(id, 'small')
+    track = fulcrum.videos.track(id, 'geojson')
 
     with open('{}_small.mp4'.format(id), 'w') as f:
         f.write(media)
+
+    with open('{}.geojson'.format(id), 'w') as f:
+          f.write(track)
 ```
 
 ### Updating Records via CSV File
