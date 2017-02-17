@@ -49,35 +49,27 @@ Various methods are available for each of the resources. Check the table above f
 
 ### Forms
 
-#### Find
+#### fulcrum.forms.find(id)
 
-```python
-form = fulcrum.forms.find(form_id)
-```
+#### fulcrum.forms.search(url_params)
 
-#### Search
+#### fulcrum.forms.create(form)
 
-```python
-forms = fulcrum.forms.search(url_params)
-```
+#### fulcrum.forms.update(id, form)
 
-#### Create
+#### fulcrum.forms.delete(id)
 
-```python
-form = fulcrum.forms.create(form_dict)
-```
+### Records
 
-#### Update
+#### fulcrum.records.find(id)
 
-```python
-form = fulcrum.forms.update(form_dict)
-```
+#### fulcrum.records.search(url_params)
 
-#### Delete
+#### fulcrum.records.create(record)
 
-```python
-fulcrum.records.delete(form_id)
-```
+#### fulcrum.records.update(id, record)
+
+#### fulcrum.records.delete(id)
 
 ### Find
 
