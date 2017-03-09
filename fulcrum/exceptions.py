@@ -12,3 +12,7 @@ class UnauthorizedException(Exception):
 
 class InternalServerErrorException(Exception):
     """There was an error while processing your request."""
+
+
+class RateLimitExceededException(Exception):
+    """The API key's rate limit was exceeded."""

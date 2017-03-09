@@ -3,7 +3,7 @@ import json
 import requests
 
 import fulcrum
-from fulcrum.exceptions import NotFoundException, UnauthorizedException, InternalServerErrorException
+from fulcrum.exceptions import NotFoundException, UnauthorizedException, InternalServerErrorException, RateLimitExceededException
 
 
 class APIConfig(object):
@@ -16,6 +16,7 @@ class BaseAPI(object):
     http_exception_map = {
         401: UnauthorizedException,
         404: NotFoundException,
+        429: RateLimitExceededException,
         500: InternalServerErrorException,
     }
 
