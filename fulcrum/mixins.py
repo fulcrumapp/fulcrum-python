@@ -1,3 +1,5 @@
+from fulcrum.utils import is_string, generate_uuid
+
 class Findable(object):
     def find(self, id):
         api_resp = self.call('get', '{0}/{1}'.format(self.path, id))
@@ -55,4 +57,23 @@ class Track(object):
         path = '{}/{}/track.{}'.format(self.path, id, self.track_formats[format])
 
         api_resp = self.call('get', path, json_content=False)
+        return api_resp
+
+
+class MediaCreateable(object):
+    def create(self, media_or_path, content_type=None, access_key=None):
+        if is_string(media_or_path):
+            media = open(media_or_path, 'rb')
+        else:
+            media = media_or_path
+
+        data = {
+            '{}[access_key]'.format(self.media_form_field_name): access_key or generate_uuid()
+        }
+
+        files = {
+            '{}[file]'.format(self.media_form_field_name): (media.name, media, content_type or self.default_content_type)
+        }
+
+        api_resp = self.call('post', self.path + self.media_upload_path, data=data, files=files)
         return api_resp

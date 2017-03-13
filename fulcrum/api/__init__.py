@@ -23,7 +23,7 @@ class BaseAPI(object):
     def __init__(self, api_config):
         self.api_config = api_config
 
-    def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True):
+    def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True, files=None):
         full_path = self.api_config.api_root + path
         headers = {
             'X-ApiToken': self.api_config.key,
@@ -39,10 +39,16 @@ class BaseAPI(object):
         kwargs = {'headers': headers}
 
         if data is not None:
-            kwargs['data'] = json.dumps(data)
+            if files:
+                kwargs['data'] = data
+            else:
+                kwargs['data'] = json.dumps(data)
 
         if url_params is not None:
             kwargs['params'] = url_params
+
+        if files is not None:
+            kwargs['files'] = files
 
         resp = getattr(requests, method)(full_path, **kwargs)
 
