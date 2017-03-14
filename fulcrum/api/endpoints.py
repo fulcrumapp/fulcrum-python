@@ -26,10 +26,13 @@ class Photos(BaseAPI, Findable, Searchable, Media, MediaCreateable):
     default_content_type = 'image/jpeg'
 
 
-class Signatures(BaseAPI, Findable, Searchable, Media):
+class Signatures(BaseAPI, Findable, Searchable, Media, MediaCreateable):
     path = 'signatures'
     ext = 'png'
     sizes = ['thumbnail', 'large']
+    media_upload_path = ''
+    media_form_field_name = 'signature'
+    default_content_type = 'image/png'
 
 
 class Videos(BaseAPI, Findable, Searchable, Media, Track, MediaCreateable):
