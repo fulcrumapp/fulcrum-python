@@ -44,10 +44,13 @@ class Videos(BaseAPI, Findable, Searchable, Media, Track, MediaCreateable):
     default_content_type = 'video/mp4'
 
 
-class Audio(BaseAPI, Findable, Searchable, Media, Track):
+class Audio(BaseAPI, Findable, Searchable, Media, Track, MediaCreateable):
     path = 'audio'
     ext = 'mp4'
     sizes = []
+    media_upload_path = '/upload'
+    media_form_field_name = 'audio'
+    default_content_type = 'audio/mp3'
 
 
 class Memberships(BaseAPI, Searchable):
