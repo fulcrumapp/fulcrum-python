@@ -24,15 +24,15 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 |---------------------|--------------------------------------|
 | Forms               | find, search, create, update, delete |
 | Records             | find, search, create, update, delete |
-| Photos              | find, search, media                  |
-| Signatures          | find, search, media                  |
+| Photos              | find, search, media, create          |
+| Signatures          | find, search, media, create          |
 | Projects            | find, search, create, update, delete |
 | Changesets          | find, search, create, update, close  |
 | Choice Lists        | find, search, create, update, delete |
 | Classification Sets | find, search, create, update, delete |
 | Webhooks            | find, search, create, update, delete |
-| Videos              | find, search, media, track           |
-| Audio               | find, search, media, track           |
+| Videos              | find, search, media, track, create   |
+| Audio               | find, search, media, track, create   |
 | Memberships         | search                               |
 | Roles               | search                               |
 
@@ -79,6 +79,8 @@ Various methods are available for each of the resources. Results are returned as
 
 ### fulcrum.photos.media(id, size)
 
+### fulcrum.photos.create(media_or_path, content_type='image/jpeg', access_key=None)
+
 ## Signatures
 
 ### fulcrum.signatures.find(id)
@@ -86,6 +88,8 @@ Various methods are available for each of the resources. Results are returned as
 ### fulcrum.signatures.search(url_params)
 
 ### fulcrum.signatures.media(id, size)
+
+### fulcrum.signatures.create(media_or_path, content_type='image/png', access_key=None)
 
 ## Videos
 
@@ -97,6 +101,8 @@ Various methods are available for each of the resources. Results are returned as
 
 ### fulcrum.videos.track(id, format)
 
+### fulcrum.videos.create(media_or_path, content_type='video/mp4', access_key=None)
+
 ## Audio
 
 ### fulcrum.audio.find(id)
@@ -106,6 +112,8 @@ Various methods are available for each of the resources. Results are returned as
 ### fulcrum.audio.media(id, size)
 
 ### fulcrum.audio.track(id, format)
+
+### fulcrum.audio.create(media_or_path, content_type='audio/mp3', access_key=None)
 
 ## Projects
 
@@ -301,6 +309,37 @@ Get a KML representation of a video track.
 track = fulcrum.videos.track('45f85af9-65d1-4356-b8d1-6e713e926c22', 'kml')
 with open('track.kml', 'w') as f:
     f.write(track)
+```
+
+### Media Creation
+
+Photos, videos, audio, and signatures can also be created. A single argument is
+required: A path to the file, or a file object (via `open('file_name.ext')`).
+
+```python
+photo_path = 'door.jpg'
+photo_resp = fulcrum.photos.create(photo_path)
+
+video = open('video.mp4', 'rb')
+video_resp = fulcrum.videos.create(video)
+```
+
+You can specifiy the file content type if you have a file type different than
+the default.
+
+```python
+image_path = 'site_plan.png'
+resp = fulcrum.photos.create(image_path, content_type='image/png')
+```
+
+IDs (access keys) are created automatically for new media objects, but you can
+specify your own too.
+
+```python
+access_key = 'a743718b-8e62-484b-bbf3-600f5055a636'
+audio_path = 'audio_recording.mp3'
+
+resp = fulcrum.audio.create(audio_path, access_key=access_key)
 ```
 
 ## Examples
