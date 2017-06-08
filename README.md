@@ -422,6 +422,51 @@ for row in record_updates:
     print('record ' + record_id + ' successfully updated!')
 ```
 
+### Updating a Record to add Repeatables
+
+Below is an example of fetching an existing record, adding some "repeatable records" to the parent record, and updating the record.
+
+```python
+from fulcrum import Fulcrum
+from fulcrum.exceptions import NotFoundException
+# Import uuid module for generating repeatable IDs
+import uuid
+
+api_key = 'your-api-key'
+fulcrum = Fulcrum(key=api_key)
+
+# Find the record you want to update
+record = fulcrum.records.find('a190b99c-be00-4793-a4b0-669fa9773c0c')
+
+# Build an array of repeatable objects
+repeatables = [{
+  'id': str(uuid.uuid4()),
+  'geometry': {
+    'type': 'Point',
+    'coordinates': [-82.6388836, 27.7707606]
+  },
+  'form_values': {
+    'e8e3': '360 Central Ave'
+  }
+}, {
+  'id': str(uuid.uuid4()),
+  'geometry': {
+    'type': 'Point',
+    'coordinates': [-82.637812, 27.772983]
+  },
+  'form_values': {
+    'e8e3': 'Williams Park'
+  }
+}]
+
+# Add array to repeatable field
+record['record']['form_values']['4501'] = repeatables
+
+# Update the record
+updated_record = fulcrum.records.update('a190b99c-be00-4793-a4b0-669fa9773c0c', record)
+print('record successfully updated!')
+```
+
 ## Testing
 
 You'll need some additional things to run tests, so:
