@@ -269,7 +269,7 @@ Skip the `size` parameter and get the default, original photo. Save it to disk.
 
 ```python
 photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b')
-with open('photo_original.jpg', 'w') as f:
+with open('photo_original.jpg', 'wb') as f:
     f.write(photo)
 ```
 
@@ -277,7 +277,7 @@ Get the thumbnail instead.
 
 ```python
 photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b', 'thumbnail')
-with open('photo_thumb.jpg', 'w') as f:
+with open('photo_thumb.jpg', 'wb') as f:
     f.write(photo)
 ```
 
@@ -285,7 +285,7 @@ Do the same with videos.
 
 ```python
 video = fulcrum.videos.media('45f85af9-65d1-4356-b8d1-6e713e926c22', 'small')
-with open('video_small.mp4', 'w') as f:
+with open('video_small.mp4', 'wb') as f:
     f.write(video)
 ```
 
@@ -365,7 +365,7 @@ for video in videos['videos']:
     media = fulcrum.videos.media(id, 'small')
     track = fulcrum.videos.track(id, 'geojson')
 
-    with open('{}_small.mp4'.format(id), 'w') as f:
+    with open('{}_small.mp4'.format(id), 'wb') as f:
         f.write(media)
 
     with open('{}.geojson'.format(id), 'w') as f:
