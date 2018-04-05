@@ -269,7 +269,7 @@ Skip the `size` parameter and get the default, original photo. Save it to disk.
 
 ```python
 photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b')
-with open('photo_original.jpg', 'w') as f:
+with open('photo_original.jpg', 'wb') as f:
     f.write(photo)
 ```
 
@@ -277,7 +277,7 @@ Get the thumbnail instead.
 
 ```python
 photo = fulcrum.photos.media('e58e80a8-9376-4a31-8e31-3cba95af0b4b', 'thumbnail')
-with open('photo_thumb.jpg', 'w') as f:
+with open('photo_thumb.jpg', 'wb') as f:
     f.write(photo)
 ```
 
@@ -285,7 +285,7 @@ Do the same with videos.
 
 ```python
 video = fulcrum.videos.media('45f85af9-65d1-4356-b8d1-6e713e926c22', 'small')
-with open('video_small.mp4', 'w') as f:
+with open('video_small.mp4', 'wb') as f:
     f.write(video)
 ```
 
@@ -344,83 +344,7 @@ resp = fulcrum.audio.create(audio_path, access_key=access_key)
 
 ## Examples
 
-### Downloading Videos for a Form
-
-Below is an example of downloading the first 3 videos and tracks for a form. You
-could change the code below to download all videos and tracks for a form if
-needed.
-
-```python
-from fulcrum import Fulcrum
-
-api_key = 'your_api_key'
-
-fulcrum = Fulcrum(key=api_key)
-
-videos = fulcrum.videos.search({'page': 1, 'per_page': 3, 'form_id': '4a3f0a6d-c1d3-4805-9aab-7cdd39d58e5f'})
-
-for video in videos['videos']:
-    id = video['access_key']
-
-    media = fulcrum.videos.media(id, 'small')
-    track = fulcrum.videos.track(id, 'geojson')
-
-    with open('{}_small.mp4'.format(id), 'w') as f:
-        f.write(media)
-
-    with open('{}.geojson'.format(id), 'w') as f:
-          f.write(track)
-```
-
-### Updating Records via CSV File
-
-Below is an example of looping through items in a csv file, finding the fulcrum record via its id, and updating the record with new values for a couple of fields.
-
-```python
-import csv
-
-from fulcrum import Fulcrum
-from fulcrum.exceptions import NotFoundException
-
-api_key = 'your_api_key'
-fulcrum = Fulcrum(key=api_key)
-record_updates = csv.reader(open('record_updates.csv'), delimiter=',')
-
-price_field_key = '9d69'
-quantity_field_key = '1299'
-
-"""
-Assuming your csv file looks something like
-
-record_id,price,quantity
-abc-123,34.58,3
-def-987,27.50,2
-"""
-
-# Skip the file header in csv (record_id,price,quantity)
-next(record_updates, None)
-
-# Loop through rows in csv
-for row in record_updates:
-    record_id = row[0]
-    price = row[1]
-    quantity = row[2]
-
-    # Try to fetch an existing record, but continue looping if not found
-    try:
-        data = fulcrum.records.find(record_id)
-    except NotFoundException:
-        print('No record found with id ' + record_id)
-        continue
-
-    # Update fields with csv values
-    data['record']['form_values'][price_field_key] = price
-    data['record']['form_values'][quantity_field_key] = quantity
-
-    # Send updates back to Fulcrum
-    updated_record = fulcrum.records.update(record_id, data)
-    print('record ' + record_id + ' successfully updated!')
-```
+https://github.com/fulcrumapp/fulcrum-python/wiki/Examples
 
 ## Testing
 
