@@ -342,6 +342,27 @@ audio_path = 'audio_recording.mp3'
 resp = fulcrum.audio.create(audio_path, access_key=access_key)
 ```
 
+### Query API
+
+The client object has a `query` method that can be used to access the [Query API](https://developer.fulcrumapp.com/query-api/intro/). The arguments are a SQL string, and an optional format. The default format is `'json'`. Other formats are `'csv'` or `'geojson'`.
+
+```python
+# Get JSON, the default format.
+as_json = fulcrum.query('SELECT * FROM Expenses LIMIT 1;')
+print(as_json)
+# {'fields': [{'name': '_record_id', 'type': 'string'}], 'time': 0.01, 'date': 1539895212724}
+
+# CSV is cool too.
+as_csv = fulcrum.query('SELECT * FROM Expenses LIMIT 1;', 'csv')
+print(as_csv)
+# '_record_id,_project_id,_assigned_to_id\nabc,123,def\n'
+
+# Or get some GeoJSON.
+as_geojson = fulcrum.query('SELECT * FROM Expenses LIMIT 1;', 'geojson')
+print(as_geojson)
+# {'type': 'FeatureCollection', 'features': [{'type': 'Feature', 'properties': {'_record_id': 'abc', '_project_id': '123'}, 'geometry': {'type': 'Point', 'coordinates': [-82.63707, 27.77102]}}]}
+```
+
 ## Examples
 
 https://github.com/fulcrumapp/fulcrum-python/wiki/Examples
