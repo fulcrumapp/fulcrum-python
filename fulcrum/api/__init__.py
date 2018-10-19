@@ -54,7 +54,6 @@ class Client(object):
             # No body is returned for delete and close methods.
             return
         elif json_content:
-            print(json.dumps(resp.json()))
             return resp.json()
         else:
             return resp.content
