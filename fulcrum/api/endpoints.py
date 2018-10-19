@@ -10,7 +10,7 @@ class Records(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable)
     path = 'records'
 
     def history(self, id):
-        api_resp = api_resp = self.call('get', '{0}/{1}/history'.format(self.path, id))
+        api_resp = api_resp = self.client.call('get', '{0}/{1}/history'.format(self.path, id))
         return api_resp
 
 class Webhooks(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
@@ -77,7 +77,7 @@ class Changesets(BaseAPI, Findable, Createable, Searchable, Updateable):
     path = 'changesets'
 
     def close(self, id):
-        api_resp = api_resp = self.call('put', '{0}/{1}/close'.format(self.path, id))
+        api_resp = api_resp = self.client.call('put', '{0}/{1}/close'.format(self.path, id))
         return api_resp
 
 

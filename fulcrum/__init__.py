@@ -1,4 +1,4 @@
-from fulcrum.api import APIConfig
+from fulcrum.api import Client
 from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Memberships, Roles, ChoiceLists, Signatures,
                                    ClassificationSets, Projects, Videos, Audio,
@@ -9,18 +9,31 @@ __version__ = '1.7.0'
 
 class Fulcrum(object):
     def __init__(self, key, uri='https://api.fulcrumapp.com'):
-        api_config = APIConfig(key=key, uri=uri)
-        self.forms = Forms(api_config=api_config)
-        self.records = Records(api_config=api_config)
-        self.webhooks = Webhooks(api_config=api_config)
-        self.photos = Photos(api_config=api_config)
-        self.signatures = Signatures(api_config=api_config)
-        self.memberships = Memberships(api_config=api_config)
-        self.roles = Roles(api_config=api_config)
-        self.choice_lists = ChoiceLists(api_config=api_config)
-        self.classification_sets = ClassificationSets(api_config=api_config)
-        self.projects = Projects(api_config=api_config)
-        self.videos = Videos(api_config=api_config)
-        self.audio = Audio(api_config=api_config)
-        self.changesets = Changesets(api_config=api_config)
-        self.child_records = ChildRecords(api_config=api_config)
+        self.client = Client(key=key, uri=uri)
+
+        self.forms = Forms(client=self.client)
+        self.records = Records(client=self.client)
+        self.webhooks = Webhooks(client=self.client)
+        self.photos = Photos(client=self.client)
+        self.signatures = Signatures(client=self.client)
+        self.memberships = Memberships(client=self.client)
+        self.roles = Roles(client=self.client)
+        self.choice_lists = ChoiceLists(client=self.client)
+        self.classification_sets = ClassificationSets(client=self.client)
+        self.projects = Projects(client=self.client)
+        self.videos = Videos(client=self.client)
+        self.audio = Audio(client=self.client)
+        self.changesets = Changesets(client=self.client)
+        self.child_records = ChildRecords(client=self.client)
+
+    def query(self, sql, format = 'json'):
+        obj = {'q': sql, 'format': format}
+        kwargs = {
+            'data': obj,
+            'extra_headers': {'Content-Type': 'application/json'}
+        }
+
+        kwargs['json_content'] = False if format == 'csv' else True
+
+        api_resp = self.client.call('post', 'query', **kwargs)
+        return api_resp

@@ -6,13 +6,7 @@ import fulcrum
 from fulcrum.exceptions import NotFoundException, UnauthorizedException, InternalServerErrorException, RateLimitExceededException
 
 
-class APIConfig(object):
-    def __init__(self, key, uri):
-        self.key = key
-        self.api_root = '{0}/api/v2/'.format(uri)
-
-
-class BaseAPI(object):
+class Client(object):
     http_exception_map = {
         401: UnauthorizedException,
         404: NotFoundException,
@@ -20,13 +14,14 @@ class BaseAPI(object):
         500: InternalServerErrorException,
     }
 
-    def __init__(self, api_config):
-        self.api_config = api_config
+    def __init__(self, key, uri):
+        self.key = key
+        self.api_root = '{0}/api/v2/'.format(uri)
 
     def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True, files=None):
-        full_path = self.api_config.api_root + path
+        full_path = self.api_root + path
         headers = {
-            'X-ApiToken': self.api_config.key,
+            'X-ApiToken': self.key,
             'User-Agent': 'Fulcrum Python API Client, Version {}'.format(fulcrum.__version__),
         }
 
@@ -59,6 +54,12 @@ class BaseAPI(object):
             # No body is returned for delete and close methods.
             return
         elif json_content:
+            print(json.dumps(resp.json()))
             return resp.json()
         else:
             return resp.content
+
+
+class BaseAPI(object):
+    def __init__(self, client):
+        self.client = client
