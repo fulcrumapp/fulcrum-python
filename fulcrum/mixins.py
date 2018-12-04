@@ -56,7 +56,9 @@ class Track(object):
             raise ValueError('Format {} not supported'.format(size))
         path = '{}/{}/track.{}'.format(self.path, id, self.track_formats[format])
 
-        api_resp = self.call('get', path, json_content=False)
+        is_json_resp = format in ('json', 'geojson', 'geojson_points')
+
+        api_resp = self.client.call('get', path, json_content=is_json_resp)
         return api_resp
 
 
@@ -75,5 +77,5 @@ class MediaCreateable(object):
             '{}[file]'.format(self.media_form_field_name): (media.name, media, content_type or self.default_content_type)
         }
 
-        api_resp = self.call('post', self.path + self.media_upload_path, data=data, files=files)
+        api_resp = self.client.call('post', self.path + self.media_upload_path, data=data, files=files)
         return api_resp
