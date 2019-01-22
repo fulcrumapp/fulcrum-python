@@ -35,6 +35,7 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 | Audio               | find, search, media, track, create   |
 | Memberships         | search                               |
 | Roles               | search                               |
+| Audit Logs          | search, find                         |
 
 ## Usage
 
