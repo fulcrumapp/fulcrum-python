@@ -83,3 +83,6 @@ class Changesets(BaseAPI, Findable, Createable, Searchable, Updateable):
 
 class ChildRecords(BaseAPI, Searchable):
     path = 'child_records'
+
+class AuditLogs(BaseAPI, Searchable, Findable):
+    path = 'audit_logs'

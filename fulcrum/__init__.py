@@ -2,7 +2,7 @@ from fulcrum.api import Client
 from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Memberships, Roles, ChoiceLists, Signatures,
                                    ClassificationSets, Projects, Videos, Audio,
-                                   Changesets, ChildRecords)
+                                   Changesets, ChildRecords, AuditLogs)
 
 __version__ = '1.8.1'
 
@@ -25,6 +25,7 @@ class Fulcrum(object):
         self.audio = Audio(client=self.client)
         self.changesets = Changesets(client=self.client)
         self.child_records = ChildRecords(client=self.client)
+        self.audit_logs = AuditLogs(client=self.client)
 
     def query(self, sql, format = 'json'):
         obj = {'q': sql, 'format': format}
