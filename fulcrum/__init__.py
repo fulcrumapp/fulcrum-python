@@ -6,9 +6,18 @@ from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
 
 __version__ = '1.9.0'
 
+default_uri = 'https://api.fulcrumapp.com'
+
+
+def get_user(email, password):
+    auth = (email, password)
+    client = Client(None, default_uri)
+    api_resp = client.call('get', 'users', auth=auth)
+    return api_resp
+
 
 class Fulcrum(object):
-    def __init__(self, key, uri='https://api.fulcrumapp.com'):
+    def __init__(self, key, uri=default_uri):
         self.client = Client(key=key, uri=uri)
 
         self.forms = Forms(client=self.client)
