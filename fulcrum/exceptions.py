@@ -16,3 +16,6 @@ class InternalServerErrorException(Exception):
 
 class RateLimitExceededException(Exception):
     """The API key's rate limit was exceeded."""
+
+class BadRequestException(Exception):
+    """There was a problem with your request."""

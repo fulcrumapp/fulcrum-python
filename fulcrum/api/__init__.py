@@ -3,11 +3,14 @@ import json
 import requests
 
 import fulcrum
-from fulcrum.exceptions import NotFoundException, UnauthorizedException, InternalServerErrorException, RateLimitExceededException
+from fulcrum.exceptions import (NotFoundException, UnauthorizedException,
+                                InternalServerErrorException,
+                                RateLimitExceededException, BadRequestException)
 
 
 class Client(object):
     http_exception_map = {
+        400: BadRequestException,
         401: UnauthorizedException,
         404: NotFoundException,
         429: RateLimitExceededException,
