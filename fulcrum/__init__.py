@@ -3,6 +3,7 @@ from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Memberships, Roles, ChoiceLists, Signatures,
                                    ClassificationSets, Projects, Videos, Audio,
                                    Changesets, ChildRecords, AuditLogs)
+from fulcrum.utils import is_string
 
 __version__ = '1.9.0'
 
@@ -14,7 +15,7 @@ def create_authorization(email, password, organization_id, note,
     if timeout is not None and not isinstance(timeout, int):
         raise ValueError('timeout must be an integer.')
 
-    if user_id is not None and not isinstance(user_id, str):
+    if user_id is not None and not is_string(user_id):
         raise ValueError('user_id must be a string.')
 
     auth = (email, password)

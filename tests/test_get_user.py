@@ -7,7 +7,7 @@ from tests import api_root
 
 class GetUserTest(unittest.TestCase):
     @httpretty.activate
-    def test_create_valid(self):
+    def test_valid(self):
         httpretty.register_uri(httpretty.GET, api_root + '/users',
             body='{"user": {"id": 1, "email": "dude@email.com"}}',
             status=200)
