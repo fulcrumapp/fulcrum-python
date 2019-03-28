@@ -3,11 +3,14 @@ import json
 import requests
 
 import fulcrum
-from fulcrum.exceptions import NotFoundException, UnauthorizedException, InternalServerErrorException, RateLimitExceededException
+from fulcrum.exceptions import (NotFoundException, UnauthorizedException,
+                                InternalServerErrorException,
+                                RateLimitExceededException, BadRequestException)
 
 
 class Client(object):
     http_exception_map = {
+        400: BadRequestException,
         401: UnauthorizedException,
         404: NotFoundException,
         429: RateLimitExceededException,
@@ -18,12 +21,15 @@ class Client(object):
         self.key = key
         self.api_root = '{0}/api/v2/'.format(uri)
 
-    def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True, files=None):
+    def call(self, method, path, data=None, extra_headers=None, url_params=None, json_content=True, files=None, auth=None):
         full_path = self.api_root + path
+
         headers = {
-            'X-ApiToken': self.key,
             'User-Agent': 'Fulcrum Python API Client, Version {}'.format(fulcrum.__version__),
         }
+
+        if self.key:
+            headers['X-ApiToken'] = self.key
 
         if json_content:
             headers.update({'Accept': 'application/json'})
@@ -44,6 +50,9 @@ class Client(object):
 
         if files is not None:
             kwargs['files'] = files
+
+        if auth is not None:
+            kwargs['auth'] = auth
 
         resp = getattr(requests, method)(full_path, **kwargs)
 

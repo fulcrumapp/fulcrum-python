@@ -53,7 +53,7 @@ class Track(object):
 
     def track(self, id, format='json'):
         if not format in self.track_formats.keys():
-            raise ValueError('Format {} not supported'.format(size))
+            raise ValueError('Format {} not supported'.format(format))
         path = '{}/{}/track.{}'.format(self.path, id, self.track_formats[format])
 
         is_json_resp = format in ('json', 'geojson', 'geojson_points')
