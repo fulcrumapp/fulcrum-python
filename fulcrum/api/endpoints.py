@@ -56,6 +56,18 @@ class Audio(BaseAPI, Findable, Searchable, Media, Track, MediaCreateable):
 class Memberships(BaseAPI, Searchable):
     path = 'memberships'
 
+    def change(self, resource_type, id, action, membership_ids):
+        change = {
+            'type': '{}_members'.format(resource_type),
+            '{}_id'.format(resource_type): id,
+            action: membership_ids
+        }
+        data = {'change': change}
+        api_resp = self.client.call('post', 'memberships/change_permissions',
+                                    data=data,
+                                    extra_headers={'Content-Type': 'application/json'})
+        return api_resp
+
 
 class Roles(BaseAPI, Searchable):
     path = 'roles'
