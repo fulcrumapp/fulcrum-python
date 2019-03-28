@@ -31,6 +31,7 @@ Just one - [Requests](http://docs.python-requests.org/en/latest/) takes care of 
 | Choice Lists        | find, search, create, update, delete |
 | Classification Sets | find, search, create, update, delete |
 | Webhooks            | find, search, create, update, delete |
+| Layers              | find, search, create, update, delete |
 | Videos              | find, search, media, track, create   |
 | Audio               | find, search, media, track, create   |
 | Memberships         | search                               |
@@ -163,6 +164,18 @@ Various methods are available for each of the resources. Results are returned as
 ### fulcrum.webhooks.update(id, form)
 
 ### fulcrum.webhooks.delete(id)
+
+## Layers
+
+### fulcrum.layers.find(id)
+
+### fulcrum.layers.search(url_params)
+
+### fulcrum.layers.create(form)
+
+### fulcrum.layers.update(id, form)
+
+### fulcrum.layers.delete(id)
 
 ## Changesets
 
