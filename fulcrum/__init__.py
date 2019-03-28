@@ -5,7 +5,7 @@ from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Changesets, ChildRecords, AuditLogs, Layers)
 from fulcrum.utils import is_string
 
-__version__ = '1.9.0'
+__version__ = '1.10.0'
 
 default_uri = 'https://api.fulcrumapp.com'
 
