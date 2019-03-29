@@ -398,3 +398,30 @@ You can get coverage too.
 View coverage.
 
     coverage html
+
+## Publishing
+
+Bump the version in `setup.py` *and* `__init__.py`:
+
+```python
+# setup.py
+setup(
+    name='fulcrum',  
+    version='1.10.0',  # The next version
+    ...
+)
+```
+
+```python
+# __init__.py
+__version__ = '1.10.0' # The next version
+```
+
+Install the twine dependency:
+
+    pip install twine
+
+Then, package it up and upload:
+
+    python setup.py sdist
+    twine upload dist/*
