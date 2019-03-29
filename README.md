@@ -417,6 +417,12 @@ setup(
 __version__ = '1.10.0' # The next version
 ```
 
+Commit the changes above, tag, and push:
+
+   git commit -am "Bump to version 1.10.0"
+   git tag -a v1.10.0 -m "version 1.10.0"
+   git push && git push --tags
+
 Install the twine dependency:
 
     pip install twine
