@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/fulcrumapp/fulcrum-python.png)](https://travis-ci.org/fulcrumapp/fulcrum-python)&nbsp;[![PyPI version](https://img.shields.io/pypi/v/fulcrum.svg)](https://pypi.python.org/pypi/fulcrum/)
 
-A library for working with [Fulcrum API](http://developer.fulcrumapp.com/api/intro/)
+A library for working with [Fulcrum API](https://learn.fulcrumapp.com/dev/rest/intro/)
 
 ## Installation
 
@@ -47,7 +47,7 @@ from fulcrum import Fulcrum
 fulcrum = Fulcrum(key='super-secret-key')
 ```
 
-Various methods are available for each of the resources. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of returned objects.
+Various methods are available for each of the resources. Results are returned as python-equivalent dicts of the JSON returned from the API. Check the [Fulcrum API Docs](https://learn.fulcrumapp.com/dev/rest/intro) for examples of returned objects.
 
 ## Forms
 
@@ -210,7 +210,7 @@ print(form['form']['name'])  # Denver Street Food
 
 ### Search
 
-Search for resources. The single parameter is `url_params` which should be passed as a dict, and will be properly url encoded. These will vary depending on the resource, but [pagination parameters](http://www.fulcrumapp.com/developers/api/introduction/#notes) are always accepted.
+Search for resources. The single parameter is `url_params` which should be passed as a dict, and will be properly url encoded. These will vary depending on the resource, but [pagination parameters](https://learn.fulcrumapp.com/dev/rest/intro#notes) are always accepted.
 
 ```python
 records = fulcrum.records.search(url_params={'form_id': 'a1cb3ac7-146f-491a-a4a2-47737fb12074'})
@@ -220,7 +220,7 @@ print(records['records'][0]['id'])  # c90b0edf-0299-42df-bed4-524446d63f40
 
 ### Create
 
-Create an object. The single parameter is a dict representation of a JSON object that will be POSTed to the API. Check the [Fulcrum API Docs](http://www.fulcrumapp.com/developers/api/) for examples of resource objects.
+Create an object. The single parameter is a dict representation of a JSON object that will be POSTed to the API. Check the [Fulcrum API Docs](https://learn.fulcrumapp.com/dev/rest/intro/) for examples of resource objects.
 
 ```python
 a_record = {
@@ -358,7 +358,7 @@ resp = fulcrum.audio.create(audio_path, access_key=access_key)
 
 ### Query API
 
-The client object has a `query` method that can be used to access the [Query API](https://developer.fulcrumapp.com/query-api/intro/). The arguments are a SQL string, and an optional format. The default format is `'json'`. Other formats are `'csv'` or `'geojson'`.
+The client object has a `query` method that can be used to access the [Query API](https://learn.fulcrumapp.com/dev/query/intro). The arguments are a SQL string, and an optional format. The default format is `'json'`. Other formats are `'csv'` or `'geojson'`.
 
 ```python
 # Get JSON, the default format.
