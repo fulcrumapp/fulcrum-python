@@ -72,5 +72,6 @@ class FormTest(FulcrumTestCase):
             status=200)
 
         form_history = self.fulcrum_api.forms.history('58ae9115-0430-459e-a1b7-7ac46011e0ce')
+        
         self.assertIsInstance(form_history, dict)
         self.assertEqual(len(form_history['forms']), 2)
