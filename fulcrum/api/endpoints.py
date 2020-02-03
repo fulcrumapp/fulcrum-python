@@ -5,6 +5,9 @@ from . import BaseAPI
 class Forms(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'forms'
 
+    def history(self, id):
+        api_resp = api_resp = self.client.call('get', '{0}/{1}/history'.format(self.path, id))
+        return api_resp
 
 class Records(BaseAPI, Findable, Deleteable, Createable, Searchable, Updateable):
     path = 'records'
