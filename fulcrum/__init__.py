@@ -6,7 +6,7 @@ from fulcrum.api.endpoints import (Forms, Records, Webhooks, Photos,
                                    Authorizations)
 from fulcrum.utils import is_string
 
-__version__ = '1.11.0'
+__version__ = '1.12.0'
 
 default_uri = 'https://api.fulcrumapp.com'
 
