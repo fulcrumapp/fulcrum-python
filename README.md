@@ -397,7 +397,7 @@ You can get coverage too.
 
 View coverage.
 
-    coverage html
+    nosetests --with-coverage --cover-package fulcrum --cover-html
 
 ## Publishing
 
