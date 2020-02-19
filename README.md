@@ -381,6 +381,17 @@ print(as_geojson)
 
 https://github.com/fulcrumapp/fulcrum-python/wiki/Examples
 
+## Hacking
+
+Set up a virtual environment and source it:
+
+    python -m venv my_venv
+    source my_env/bin/activate
+
+Install dependencies:
+
+    python setup.py install
+
 ## Testing
 
 You'll need some additional things to run tests, so:
